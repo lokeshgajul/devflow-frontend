@@ -57,7 +57,7 @@ const HeroSection = () => {
           </div>
         </div>
 
-        <div className="hidden md:flex items-center justify-center">
+        <div className="animate-float hidden md:flex items-center justify-center transition-transform duration-700 hover:rotate-1 hover:scale-105">
           <div className="relative w-full aspect-square">
             <svg
               className="w-full h-full"
@@ -65,6 +65,9 @@ const HeroSection = () => {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
+              <rect x="70" y="80" width="260" height="40" rx="8" fill="#f3f4f6">
+                <animate attributeName="x" values="60;70" dur="0.8s" />
+              </rect>
               {/* Rounded rectangle with gradient background */}
               <rect
                 x="50"
@@ -183,6 +186,33 @@ const HeroSection = () => {
                   />
                 </linearGradient>
               </defs>
+              {/* Typing dots animation */}
+              <circle cx="200" cy="330" r="4" fill="#3b82f6">
+                <animate
+                  attributeName="cy"
+                  values="330;325;330"
+                  dur="1s"
+                  repeatCount="indefinite"
+                />
+              </circle>
+              <circle cx="215" cy="330" r="4" fill="#3b82f6">
+                <animate
+                  attributeName="cy"
+                  values="330;325;330"
+                  dur="1s"
+                  begin="0.2s"
+                  repeatCount="indefinite"
+                />
+              </circle>
+              <circle cx="230" cy="330" r="4" fill="#3b82f6">
+                <animate
+                  attributeName="cy"
+                  values="330;325;330"
+                  dur="1s"
+                  begin="0.4s"
+                  repeatCount="indefinite"
+                />
+              </circle>
             </svg>
           </div>
         </div>

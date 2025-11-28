@@ -1,21 +1,17 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 const Signup = () => {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    username: "",
-    email: "",
-    password: "",
-  });
+  const { handleChange, formData, signUp } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    const response = await signUp();
+    if (response) {
+      navigate("/signin");
+    }
   };
 
   return (
@@ -26,19 +22,6 @@ const Signup = () => {
         </h2>
 
         <form onSubmit={handleSignup} className="space-y-4">
-          <div>
-            <label className="text-gray-700 font-medium">Full Name</label>
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              placeholder="John Doe"
-              className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
-              required
-            />
-          </div>
-
           <div>
             <label className="text-gray-700 font-medium">Username</label>
             <input

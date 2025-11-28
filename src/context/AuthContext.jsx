@@ -6,6 +6,12 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    username: "",
+    email: "",
+    password: "",
+  });
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -43,15 +49,55 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  //   useEffect(() => {
-  //     logOut();
-  //   }, []);
+  const signUp = async () => {
+    try {
+      const res = await axios.post("http://localhost:3000/auth/signup", {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      const data = await res.data;
+      console.log("Data ", data);
+
+      return true;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const signIn = async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/auth/signin",
+        {
+          email: formData.email,
+          password: formData.password,
+        },
+        { withCredentials: true }
+      );
+
+      const data = await res.data;
+      setIsAuthenticated(true);
+      console.log("Data ", data);
+      return true;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const value = {
     user,
     setUser,
     logOut,
     isAuthenticated,
+    signUp,
+    handleChange,
+    formData,
+    signIn,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

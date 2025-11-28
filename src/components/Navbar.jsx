@@ -4,12 +4,12 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
   return (
-    <div className="border-gray-200 border-b-[0.5px] sticky top-0 z-50">
-      <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between bg-[#f9f8f8] p-5  ">
+    <div className="border-gray-200 border-b-[0.5px] sticky top-0 z-50 bg-[#f9f8f8]">
+      <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between p-5">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
             <span className="text-white font-bold text-lg">Q</span>
@@ -30,7 +30,7 @@ const Navbar = () => {
           </ul>
         </div>
         <div>
-          {user ? (
+          {isAuthenticated ? (
             <span className="bg-[#0065cb] py-2 px-3 text-sm rounded-md text-white font-medium font-sans cursor-pointer">
               Logout
             </span>

@@ -1,20 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 const Signin = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const { handleChange, formData, signIn } = useContext(AuthContext);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleLogin = (e) => {
+  const navigate = useNavigate();
+  const handleSignIn = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    const response = await signIn();
+    if (response) navigate("/home");
   };
 
   return (
@@ -24,7 +20,7 @@ const Signin = () => {
           Welcome Back
         </h2>
 
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form onSubmit={handleSignIn} className="space-y-4">
           <div>
             <label className="text-gray-700 font-medium">Email</label>
             <input
