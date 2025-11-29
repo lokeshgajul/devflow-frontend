@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ const Navbar = () => {
       <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between p-5">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
-            <span className="text-white font-bold text-lg">Q</span>
+            <span className="text-white font-bold text-lg">D</span>
           </div>
           <span className="text-xl font-semibold text-foreground">DevFlow</span>
         </div>

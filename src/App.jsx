@@ -3,7 +3,7 @@ import Main from "./navigation/Main";
 import { AuthProvider } from "./context/AuthContext";
 function App() {
   return (
-    <div className="bg-[#f9f8f8]">
+    <div className="">
       <AuthProvider>
         <Main />
       </AuthProvider>

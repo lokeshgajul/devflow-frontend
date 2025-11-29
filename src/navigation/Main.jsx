@@ -7,6 +7,7 @@ import { AuthContext } from "../context/AuthContext";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import { PublicRoute } from "../components/PublicRoute/PublicRoute";
 import LandingPage from "../auth/landingpage/LandingPage";
+import Profile from "../pages/profile/Profile";
 
 const Main = () => {
   return (
@@ -41,6 +42,14 @@ const Main = () => {
           element={
             <ProtectedRoute>
               <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           }
         />

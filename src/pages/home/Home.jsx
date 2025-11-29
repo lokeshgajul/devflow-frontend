@@ -1,53 +1,66 @@
 import React from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { useEffect } from "react";
-
+import Header from "../../components/Header/Header";
+import QuestionCard from "../../components/QuestionCard/QuestionCard";
+import TopContributors from "../../components/TopContributos/TopContributors";
 const Home = () => {
-  const { isAuthenticated, logOut } = useContext(AuthContext);
+  // const { isAuthenticated, logOut, user } = useContext(AuthContext);
 
-  console.log(isAuthenticated);
+  // const getProfileDetails = async () => {};
+  const sampleQuestion = {
+    title:
+      "How to handle async operations in React with proper error handling?",
+    description:
+      "I'm trying to implement proper error handling for async operations in my React component but I'm struggling...",
+    tags: ["react", "javascript", "async-await"],
+    likes: 287,
+    answers: 12,
+    views: 1450,
+    author: {
+      name: "Sarah Chen",
+      avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+    },
+    timeAgo: "2 hours ago",
+  };
 
   return (
-    <div>
-      <div className="border-gray-200 border-b-[0.5px] sticky top-0 z-50">
-        <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between bg-[#f9f8f8] p-5  ">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
-              <span className="text-white font-bold text-lg">Q</span>
+    <div className="bg-gray-50 h-screen">
+      <div className="sticky top-0 z-40">
+        <Header />
+      </div>
+
+      <div className="grid max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 gap-6 grid-cols-1 lg:grid-cols-7 ">
+        {/* Main Content */}
+        <div className="lg:col-span-5">
+          <div className="bg-white mt-8 rounded-md flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 border border-gray-300">
+            <div>
+              <h2 className="text-lg font-bold">Top Questions</h2>
+              <span className="text-gray-600">6 questions found</span>
             </div>
-            <span className="text-xl font-semibold text-foreground">
-              DevFlow
-            </span>
-          </div>
-          <div className="hidden md:block">
-            <ul className="flex flex-row gap-4 justify-center items-center ">
-              <li className="text-gray-500 hover:text-gray-800 cursor-pointer ">
-                Features
+
+            {/* Filter Pills */}
+            <ul className="flex gap-2 mt-3 sm:mt-0">
+              <li className="bg-gray-100 text-gray-700 font-medium rounded-md px-3 py-1 cursor-pointer">
+                Newest
               </li>
-              <li className="text-gray-500 hover:text-gray-800 cursor-pointer ">
-                Why Us
-              </li>
-              <li className="text-gray-500 hover:text-gray-800 cursor-pointer ">
-                How It Works
+              <li className="bg-blue-50 text-blue-600 font-medium rounded-md px-3 py-1 cursor-pointer">
+                Hot
               </li>
             </ul>
           </div>
-          <div>
-            {isAuthenticated ? (
-              <span
-                onClick={() => logOut()}
-                className="bg-[#0065cb] py-2 px-3 text-sm rounded-md text-white font-medium font-sans cursor-pointer"
-              >
-                Logout
-              </span>
-            ) : (
-              <span className="bg-[#0065cb] py-2 px-3 text-sm rounded-md text-white font-medium font-sans cursor-pointer">
-                Sign In
-              </span>
-            )}
+
+          {/* Question Cards */}
+          <div className="bg-white mt-5 py-2 rounded-md border border-gray-300 space-y-3">
+            <QuestionCard question={sampleQuestion} />
+            <QuestionCard question={sampleQuestion} />
           </div>
-        </nav>
+        </div>
+
+        {/* Sidebar */}
+        <div className="lg:col-span-2 mt-8">
+          <TopContributors />
+        </div>
       </div>
     </div>
   );
