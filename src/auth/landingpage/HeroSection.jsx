@@ -5,11 +5,11 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="px-6 py-20 md:py-32 lg:py-20 max-w-6xl mx-auto ">
+    <section className="px-6 py-12 sm:px-6 lg:px-16 text-white">
       <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
         <div className="space-y-8">
-          <div className="inline-block px-4 py-2 rounded-full bg-blue-50 border border-blue-200">
-            <span className="text-sm font-medium text-blue-700">
+          <div className="inline-block px-4 py-2 rounded-full bg-gray-900/5 border border-blue-200">
+            <span className="text-sm font-medium ">
               ✨ The Developer Community
             </span>
           </div>
@@ -23,7 +23,7 @@ const HeroSection = () => {
             community, build your reputation, and learn together.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 pt-4">
+          <div className="flex flex-col sm:flex-row gap-4 py-4 max-sm:px-4">
             <button
               onClick={() => navigate("/signin")}
               className="px-8 py-3 rounded-full bg-[#0065cb] text-lg text-white font-sans cursor-pointer font-semibold hover:opacity-90 transition-opacity"
@@ -37,19 +37,23 @@ const HeroSection = () => {
 
           <div className="flex items-center gap-6 pt-8  border-t-[0.5px] border-gray-200">
             <div>
-              <p className="text-2xl font-bold text-foreground">50K+</p>
+              <p className="text-lg md:text-2xl font-bold text-foreground">
+                50K+
+              </p>
               <p className="text-sm font-sans tracking-wide text-gray-500">
                 Active Developers
               </p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-foreground">100K+</p>
+              <p className="text-lg text-2xl font-bold text-foreground">
+                100K+
+              </p>
               <p className="text-sm font-sans tracking-wide text-gray-500">
                 Questions Answered
               </p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-foreground">1M+</p>
+              <p className="text-lg text-2xl font-bold text-foreground">1M+</p>
               <p className="text-sm font-sans tracking-wide text-gray-500">
                 Monthly Views
               </p>

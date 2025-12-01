@@ -5,16 +5,18 @@ import Features from "./Features";
 import HowItWorks from "./HowItWorks";
 import Cta from "./Cta";
 import Footer from "./Footer";
+import AISection from "./AISection";
+import Testemonials from "./Testemonials";
 
 const LandingPage = () => {
   return (
-    <div>
+    <div className="">
       <Navbar />
       <HeroSection />
+      <AISection />
       <Features />
       <HowItWorks />
-      <Cta />
-      <Footer />
+      <Testemonials />
     </div>
   );
 };

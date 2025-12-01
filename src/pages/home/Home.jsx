@@ -25,23 +25,25 @@ const Home = () => {
   };
 
   return (
-    <div className="bg-gray-50 h-screen">
+    <div className="pb-10 ">
       <div className="sticky top-0 z-40">
         <Header />
       </div>
 
-      <div className="grid max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 gap-6 grid-cols-1 lg:grid-cols-7 ">
+      <div className="grid max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 gap-6 grid-cols-1 lg:grid-cols-7 text-white">
         {/* Main Content */}
         <div className="lg:col-span-5">
-          <div className="bg-white mt-8 rounded-md flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 border border-gray-300">
+          <div className="mt-8 rounded-md flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 border bg-gray-800 border-gray-600">
             <div>
               <h2 className="text-lg font-bold">Top Questions</h2>
-              <span className="text-gray-600">6 questions found</span>
+              <span className="text-gray-500 font-medium text-sm">
+                6 questions found
+              </span>
             </div>
 
             {/* Filter Pills */}
             <ul className="flex gap-2 mt-3 sm:mt-0">
-              <li className="bg-gray-100 text-gray-700 font-medium rounded-md px-3 py-1 cursor-pointer">
+              <li className="bg-[gray-100] text-gray-700 font-medium rounded-md px-3 py-1 cursor-pointer text-white">
                 Newest
               </li>
               <li className="bg-blue-50 text-blue-600 font-medium rounded-md px-3 py-1 cursor-pointer">
@@ -51,7 +53,7 @@ const Home = () => {
           </div>
 
           {/* Question Cards */}
-          <div className="bg-white mt-5 py-2 rounded-md border border-gray-300 space-y-3">
+          <div className="bg-[#1f2937] mt-5 py-2 rounded-md border border-gray-500 space-y-3">
             <QuestionCard question={sampleQuestion} />
             <QuestionCard question={sampleQuestion} />
           </div>

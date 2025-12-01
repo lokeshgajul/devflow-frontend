@@ -43,7 +43,7 @@ const getRankIcon = (rank) => {
 
 const TopContributors = () => {
   return (
-    <div className="bg-white rounded-md p-5 border-[1px] border-gray-300">
+    <div className="bg-[#1f2937] rounded-md p-5 border-[0.5px] border-gray-500">
       {/* Title */}
       <h3 className="font-semibold text-lg flex items-center gap-2 pb-3 ">
         <FaTrophy className="text-blue-600" /> Top Contributors
@@ -54,17 +54,17 @@ const TopContributors = () => {
         {contributors.map((user, idx) => (
           <li
             key={idx}
-            className="flex items-center justify-between border-b-[1px] border-gray-300 pb-3 last:border-none"
+            className="flex items-center justify-between border-b-[0.5px] border-gray-500 pb-3 last:border-none"
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 ">
               <img
                 src={user.avatar}
                 alt="avatar"
                 className="w-10 h-10 rounded-full object-cover"
               />
               <div>
-                <h4 className="font-medium text-gray-800">{user.name}</h4>
-                <p className="text-gray-600 text-sm">{user.rep} rep</p>
+                <h4 className="font-medium text-white">{user.name}</h4>
+                <p className=" text-sm text-white">{user.rep} rep</p>
               </div>
             </div>
 

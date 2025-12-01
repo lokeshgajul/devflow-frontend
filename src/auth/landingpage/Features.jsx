@@ -1,84 +1,102 @@
 import React from "react";
+import { FiMessageCircle } from "react-icons/fi";
+import { FiShare2 } from "react-icons/fi";
+import { FiAward } from "react-icons/fi";
+import { MdOutlineRectangle } from "react-icons/md";
 
 const Features = () => {
   const features = [
     {
-      icon: "💬",
+      icon: FiMessageCircle,
       title: "Ask Questions",
       description:
-        "Post your coding challenges and get solutions from expert developers worldwide.",
+        "Post your coding questions and get answers from experienced developers worldwide. Our community is here to help you solve any technical challenge.",
+      image: "https://images.pexels.com/photos/356079/pexels-photo-356079.jpeg",
+      color: "blue",
     },
     {
-      icon: "✍️",
-      title: "Answer & Help",
+      icon: FiShare2,
+      title: "Share Knowledge",
       description:
-        "Share your knowledge and help others solve their problems. Build credibility.",
+        "Contribute your expertise by answering questions and sharing insights. Help fellow developers grow while building your reputation in the community.",
+      image:
+        "https://images.pexels.com/photos/3184639/pexels-photo-3184639.jpeg",
+      color: "green",
     },
     {
-      icon: "⬆️",
-      title: "Upvote & Vote",
+      icon: FiAward,
+      title: "Earn Reputation",
       description:
-        "Rate helpful answers. Community-driven quality ensures the best solutions rise up.",
-    },
-    {
-      icon: "🏷️",
-      title: "Smart Tags",
-      description:
-        "Organize questions by technology, language, and topic for easy discovery.",
-    },
-    {
-      icon: "🔍",
-      title: "Powerful Search",
-      description:
-        "Find answers fast with advanced search filters and intelligent recommendations.",
-    },
-    {
-      icon: "👤",
-      title: "Developer Profiles",
-      description:
-        "Build your reputation, showcase achievements, and connect with the community.",
+        "Build your developer profile by earning points and badges. Get recognized for your contributions and become a trusted member of the DevFlow community.",
+      image:
+        "https://images.unsplash.com/photo-1537420327992-d6e192287183?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwzfHxzdGFyfGVufDB8fHx8MTc2NDUwMzg0NXww&ixlib=rb-4.1.0&q=85",
+      color: "yellow",
     },
   ];
 
-  return (
-    <div>
-      {" "}
-      <section id="features" className="px-6 py-20 md:py-32 bg-[#f5f4f4]">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-16 space-y-4">
-            <h2 className="text-4xl md:text-5xl font-bold ">
-              Everything you need to succeed
-            </h2>
-            <p className="text-lg max-w-2xl text-[#838081]">
-              Powerful features designed to make finding answers and sharing
-              knowledge effortless.
-            </p>
-          </div>
+  const colorClasses = {
+    blue: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    green: "bg-green-500/10 text-green-400 border-green-500/20",
+    yellow: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
+  };
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, i) => (
-              <div
-                key={i}
-                className="group p-8 bg-[#f8f8f8] rounded-xl border border-gray-800 
-             hover:border-blue-200 hover:shadow-xl hover:scale-y-105
-             transition-all duration-1000 ease-out cursor-pointer
-             origin-bottom"
-              >
-                <div className="text-4xl mb-4 transition-transform duration-300 group-hover:scale-110">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">
-                  {feature.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
-            ))}
-          </div>
+  return (
+    <section className="py-16 bg-gray-900">
+      <div className="px-4 sm:px-6 lg:px-12">
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+            Why Choose DevFlow?
+          </h2>
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            Join a thriving community of developers helping each other succeed
+          </p>
         </div>
-      </section>
-    </div>
+
+        {/* Features Grid */}
+        <div className="grid md:grid-cols-3 gap-8 px-4">
+          {features.map((feature, index) => {
+            const Icon = feature.icon;
+            return (
+              <div
+                key={index}
+                className="bg-gray-800 border-gray-700 rounded-lg hover:border-blue-500/50 transition-all duration-300 transform hover:scale-105 overflow-hidden group"
+              >
+                {/* Feature Image */}
+                <div className="relative h-32 md:h-64 overflow-hidden">
+                  <img
+                    src={feature.image}
+                    alt={feature.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-800 to-transparent"></div>
+                </div>
+
+                {/* Feature Content */}
+                <div className="p-6 space-y-4">
+                  <div
+                    className={`inline-flex items-center justify-center w-12 h-12 rounded-xl border ${
+                      colorClasses[feature.color]
+                    }`}
+                  >
+                    <MdOutlineRectangle className="w-6 h-6" />
+                  </div>
+
+                  <h3 className="text-xl font-bold text-white">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-400">{feature.description}</p>
+
+                  <button className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
+                    Learn more →
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 };
 

@@ -12,14 +12,14 @@ const Header = () => {
   const { user } = useContext(AuthContext);
   return (
     <div>
-      <header className=" bg-white border-b border-gray-200 shadow-sm">
+      <header className=" bg-gray-900/95 border-b border-gray-600 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">D</span>
               </div>
-              <h1 className="text-2xl font-bold text-gray-900">DevFlow</h1>
+              <h1 className="text-xl font-bold text-white">DevFlow</h1>
             </div>
 
             <div className="flex-1 max-w-md hidden sm:block">
@@ -30,31 +30,35 @@ const Header = () => {
                   placeholder="Search questions..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 text-gray-500 font-medium 
+                  className="w-full pl-10 pr-4 py-1 rounded-lg border-[0.5px] border-gray-500 text-gray-500 font-medium 
                                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-                              bg-white transition duration-200"
+                              bg-[#1f2937] transition duration-200"
                 />
               </div>
             </div>
 
             <div className=" flex flex-row justify-center items-center gap-6">
-              <button className="hidden text-sm cursor-pointer sm:flex items-center gap-2 px-3 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
+              <button
+                onClick={() => navigate("/ask-question")}
+                className="hidden text-sm cursor-pointer sm:flex items-center gap-2 px-3 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              >
                 <FaPlus size={15} />
                 Ask Question
               </button>
 
               <div
                 onClick={() => navigate("/profile")}
-                className="w-9 h-9 bg-white shadow-sm cursor-pointer rounded-full"
+                className="w-9 h-9 bg-white shadow-sm cursor-pointer rounded-full overflow-hidden"
               >
                 <img
-                  className="rounded-full"
+                  className="w-full h-full object-cover rounded-full"
                   src={
-                    user.avatar
+                    user?.avatar
                       ? user.avatar
                       : "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png"
                   }
                   alt="profile logo"
+                  referrerPolicy="no-referrer"
                 />
               </div>
             </div>

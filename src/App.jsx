@@ -1,9 +1,11 @@
 import React from "react";
 import Main from "./navigation/Main";
 import { AuthProvider } from "./context/AuthContext";
+import "./App.css";
+
 function App() {
   return (
-    <div className="">
+    <div className="main">
       <AuthProvider>
         <Main />
       </AuthProvider>
