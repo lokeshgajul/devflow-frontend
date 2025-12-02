@@ -22,21 +22,6 @@ const Header = () => {
               <h1 className="text-xl font-bold text-white">DevFlow</h1>
             </div>
 
-            <div className="flex-1 max-w-md hidden sm:block">
-              <div className="relative flex items-center">
-                <CiSearch size={20} className="absolute left-3 text-gray-500" />
-                <input
-                  type="text"
-                  placeholder="Search questions..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-1 rounded-lg border-[0.5px] border-gray-500 text-gray-500 font-medium 
-                                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-                              bg-[#1f2937] transition duration-200"
-                />
-              </div>
-            </div>
-
             <div className=" flex flex-row justify-center items-center gap-6">
               <button
                 onClick={() => navigate("/ask-question")}

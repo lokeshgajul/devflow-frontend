@@ -10,6 +10,7 @@ import LandingPage from "../auth/landingpage/LandingPage";
 import Profile from "../pages/profile/Profile";
 import AskQuestionForm from "../pages/ask_question/AskQuestionForm";
 import Footer from "../auth/landingpage/Footer";
+import Header from "../components/Header/Header";
 
 const Main = () => {
   return (
@@ -46,6 +47,7 @@ const Main = () => {
               path="/home"
               element={
                 <ProtectedRoute>
+                  <Header />
                   <Home />
                 </ProtectedRoute>
               }
@@ -54,6 +56,7 @@ const Main = () => {
               path="/ask-question"
               element={
                 <ProtectedRoute>
+                  <Header />
                   <AskQuestionForm />
                 </ProtectedRoute>
               }
@@ -62,6 +65,7 @@ const Main = () => {
               path="/profile"
               element={
                 <ProtectedRoute>
+                  <Header />
                   <Profile />
                 </ProtectedRoute>
               }

@@ -26,10 +26,6 @@ const Home = () => {
 
   return (
     <div className="pb-10 ">
-      <div className="sticky top-0 z-40">
-        <Header />
-      </div>
-
       <div className="grid max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 gap-6 grid-cols-1 lg:grid-cols-7 text-white">
         {/* Main Content */}
         <div className="lg:col-span-5">
@@ -41,7 +37,6 @@ const Home = () => {
               </span>
             </div>
 
-            {/* Filter Pills */}
             <ul className="flex gap-2 mt-3 sm:mt-0">
               <li className="bg-[gray-100] text-gray-700 font-medium rounded-md px-3 py-1 cursor-pointer text-white">
                 Newest
@@ -52,14 +47,12 @@ const Home = () => {
             </ul>
           </div>
 
-          {/* Question Cards */}
           <div className="bg-[#1f2937] mt-5 py-2 rounded-md border border-gray-500 space-y-3">
             <QuestionCard question={sampleQuestion} />
             <QuestionCard question={sampleQuestion} />
           </div>
         </div>
 
-        {/* Sidebar */}
         <div className="lg:col-span-2 mt-8">
           <TopContributors />
         </div>
