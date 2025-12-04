@@ -43,13 +43,11 @@ const getRankIcon = (rank) => {
 
 const TopContributors = () => {
   return (
-    <div className="bg-[#1f2937] rounded-md p-5 border-[0.5px] border-gray-500">
-      {/* Title */}
+    <div className="">
       <h3 className="font-semibold text-lg flex items-center gap-2 pb-3 ">
         <FaTrophy className="text-blue-600" /> Top Contributors
       </h3>
 
-      {/* List */}
       <ul className="mt-3 space-y-4">
         {contributors.map((user, idx) => (
           <li

@@ -8,9 +8,7 @@
 html {
   scroll-behavior: smooth;
 }
-.main{
-  background-color: #111828;
-}
+
 
 /* Custom scrollbar for webkit browsers */
 ::-webkit-scrollbar {

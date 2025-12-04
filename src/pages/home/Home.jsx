@@ -1,64 +1,108 @@
-import React from "react";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import Header from "../../components/Header/Header";
+import React, { useContext, useEffect } from "react";
+import { AiOutlineRobot } from "react-icons/ai";
 import QuestionCard from "../../components/QuestionCard/QuestionCard";
 import TopContributors from "../../components/TopContributos/TopContributors";
-const Home = () => {
-  // const { isAuthenticated, logOut, user } = useContext(AuthContext);
+import { useNavigate } from "react-router-dom";
+import { QnAContext } from "../../context/QuestionContext";
 
-  // const getProfileDetails = async () => {};
-  const sampleQuestion = {
-    title:
-      "How to handle async operations in React with proper error handling?",
-    description:
-      "I'm trying to implement proper error handling for async operations in my React component but I'm struggling...",
-    tags: ["react", "javascript", "async-await"],
-    likes: 287,
-    answers: 12,
-    views: 1450,
-    author: {
-      name: "Sarah Chen",
-      avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-    },
-    timeAgo: "2 hours ago",
-  };
+export default function Home() {
+  const trending = ["react", "tailwind", "mongodb", "javascript", "ai"];
+  const navigate = useNavigate();
+
+  const { getAllQuestions, questionData } = useContext(QnAContext);
+  useEffect(() => {
+    getAllQuestions();
+  }, []);
 
   return (
-    <div className="pb-10 ">
-      <div className="grid max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 gap-6 grid-cols-1 lg:grid-cols-7 text-white">
-        {/* Main Content */}
-        <div className="lg:col-span-5">
-          <div className="mt-8 rounded-md flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 border bg-gray-800 border-gray-600">
-            <div>
-              <h2 className="text-lg font-bold">Top Questions</h2>
-              <span className="text-gray-500 font-medium text-sm">
-                6 questions found
-              </span>
+    <div
+      className="min-h-screen antialiased text-gray-100"
+      style={{ backgroundColor: "#0f172a" }}
+    >
+      <main className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 px-6 py-10 pb-20">
+        {/* Feed */}
+        <section className="md:col-span-2">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="max-md:text-lg text-xl font-semibold">
+              All Questions
+            </h2>
+            <div className="flex items-center gap-3">
+              <div className="text-sm text-slate-400">Sort:</div>
+              <select className="bg-slate-800/40 px-3 py-1 rounded-md text-sm">
+                <option>Newest</option>
+                <option>Most Liked</option>
+                <option>Most Viewed</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <QuestionCard questionData={questionData} />
+          </div>
+        </section>
+
+        <aside className="hidden md:block">
+          <div className="sticky top-6 space-y-6">
+            <div className="bg-gray-800/85 p-4 rounded-xl border border-slate-700">
+              <h4 className="text-sm font-semibold mb-3">Trending Hashtags</h4>
+              <div className="flex flex-wrap gap-2">
+                {trending.map((t) => (
+                  <button
+                    key={t}
+                    className="text-xs px-3 py-1 rounded-lg bg-gradient-to-r from-slate-700/40 to-slate-800/30 border border-slate-700"
+                  >
+                    #{t}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            <ul className="flex gap-2 mt-3 sm:mt-0">
-              <li className="bg-[gray-100] text-gray-700 font-medium rounded-md px-3 py-1 cursor-pointer text-white">
-                Newest
-              </li>
-              <li className="bg-blue-50 text-blue-600 font-medium rounded-md px-3 py-1 cursor-pointer">
-                Hot
-              </li>
-            </ul>
-          </div>
+            <div className="bg-gray-800/85 p-4 rounded-xl border border-slate-700">
+              <TopContributors />
+            </div>
 
-          <div className="bg-[#1f2937] mt-5 py-2 rounded-md border border-gray-500 space-y-3">
-            <QuestionCard question={sampleQuestion} />
-            <QuestionCard question={sampleQuestion} />
+            <div className="bg-gray-800/85 p-4 rounded-xl border border-slate-700">
+              <h4 className="text-sm font-semibold mb-3">AI Assistant</h4>
+              <p className="text-sm text-slate-300 mb-3">
+                Ask the AI for suggested answers, summaries, or to improve your
+                question.
+              </p>
+              <button className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600">
+                <AiOutlineRobot className="text-white" />{" "}
+                <span className="text-sm font-medium">Open AI Bot</span>
+              </button>
+            </div>
           </div>
-        </div>
+        </aside>
+      </main>
 
-        <div className="lg:col-span-2 mt-8">
-          <TopContributors />
-        </div>
-      </div>
+      {/* Ask Question FAB */}
+      <button
+        onClick={() => navigate("/ask-question")}
+        className="
+            fixed bottom-24 md:hidden right-6
+            bg-blue-600 hover:bg-blue-700 text-white
+            rounded-full shadow-xl flex items-center gap-2
+            px-4 py-2
+            z-50 transition
+          "
+      >
+        <span className="text-3xl">+</span>
+        <span className="hidden md:inline font-medium">Ask Question</span>
+      </button>
+
+      {/* AI Bot Icon FAB */}
+      <button
+        className="
+            fixed bottom-6 right-6
+            bg-blue-500 hover:bg-blue-600 text-white
+            rounded-full shadow-xl flex items-center justify-center
+            px-3 py-3 text-xl mt-2
+            z-50 transition
+          "
+      >
+        🤖
+      </button>
     </div>
   );
-};
-
-export default Home;
+}

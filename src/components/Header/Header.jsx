@@ -7,7 +7,6 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 const Header = () => {
-  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   return (
@@ -22,6 +21,14 @@ const Header = () => {
               <h1 className="text-xl font-bold text-white">DevFlow</h1>
             </div>
 
+            <div>
+              <ul className="flex flex-row gap-4  text-gray-300 font-normal">
+                <li className="cursor-pointer">Home</li>
+                <li className="cursor-pointer">Categories</li>
+                <li className="cursor-pointer">Leaderboard</li>
+                <li className="cursor-pointer">About</li>
+              </ul>
+            </div>
             <div className=" flex flex-row justify-center items-center gap-6">
               <button
                 onClick={() => navigate("/ask-question")}

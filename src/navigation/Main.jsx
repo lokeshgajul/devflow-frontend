@@ -11,6 +11,7 @@ import Profile from "../pages/profile/Profile";
 import AskQuestionForm from "../pages/ask_question/AskQuestionForm";
 import Footer from "../auth/landingpage/Footer";
 import Header from "../components/Header/Header";
+import QuestionDetails from "../pages/question-details/QuestionDetails";
 
 const Main = () => {
   return (
@@ -58,6 +59,15 @@ const Main = () => {
                 <ProtectedRoute>
                   <Header />
                   <AskQuestionForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/details/:id"
+              element={
+                <ProtectedRoute>
+                  <Header />
+                  <QuestionDetails />
                 </ProtectedRoute>
               }
             />

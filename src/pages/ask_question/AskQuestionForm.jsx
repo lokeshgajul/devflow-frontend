@@ -20,6 +20,9 @@ const AskQuestionForm = () => {
         {
           userId: user._id,
           username: user.username,
+          avatar: user.avatar
+            ? user?.avatar
+            : "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png",
           title,
           description,
           hashtags: tag,
@@ -44,13 +47,6 @@ const AskQuestionForm = () => {
     "Database",
     "API",
     "DevOps",
-  ];
-
-  const tips = [
-    "Be specific about what you're trying to achieve",
-    "Include error messages and relevant context",
-    "Share minimal reproducible example code",
-    "Use relevant tags to reach the right people",
   ];
 
   const addTag = () => {
@@ -202,7 +198,7 @@ const AskQuestionForm = () => {
         </div>
 
         {/* Tips section */}
-        <aside className="bg-gray-800 p-5 mt-24 rounded-lg border border-gray-700 h-max">
+        <aside className="bg-gray-800 p-5 mt-10 lg:mt-24 rounded-lg border border-gray-700 h-max">
           <div className="flex items-center gap-2 mb-3">
             <IoBulbOutline className="text-blue-600 text-lg" />
             <h3 className="font-semibold text-sm">Writing a Good Question</h3>
