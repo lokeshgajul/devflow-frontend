@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { FiThumbsUp, FiMessageCircle, FiEye } from "react-icons/fi";
 import { AiOutlineRobot } from "react-icons/ai";
+import { FaRegCopy } from "react-icons/fa6";
+import { IoMdSend } from "react-icons/io";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
 export default function QuestionDetails() {
   const { id } = useParams();
   const [details, setDetails] = useState();
+  const [postAnswer, setPostAnswer] = useState("");
   console.log(id);
 
   const getQuestionById = async () => {
@@ -73,10 +76,7 @@ export default function QuestionDetails() {
   ];
 
   return (
-    <div
-      className="min-h-screen text-gray-100  px-6 py-8 max-w-5xl mx-auto"
-      //   style={{ backgroundColor: "#0f172a" }}
-    >
+    <div className="min-h-screen text-gray-100  px-6 py-8 max-w-5xl mx-auto">
       {/* Question Section */}
       <div className="bg-slate-800/40 p-6 rounded-2xl border border-slate-700 mb-6">
         <div className="flex items-center gap-3">
@@ -87,22 +87,39 @@ export default function QuestionDetails() {
         <h1 className="text-2xl font-semibold mt-3 mb-2">{details?.title}</h1>
         <p className="text-slate-300 text-sm mb-4">{details?.description}</p>
 
-        <div className="flex items-center gap-6 text-sm text-slate-400">
+        <pre
+          className="
+            bg-gray-900/70 text-gray-200 p-5 rounded-lg my-4
+            overflow-x-auto overflow-y-auto text-sm  [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full"
+        >
+          <div className="flex flex-row justify-between items-center py-2">
+            <p className="text-white">Code </p>
+            <p className="text-white flex flex-row justify-center items-center cursor-pointer">
+              Copy{" "}
+              <span>
+                <FaRegCopy />
+              </span>
+            </p>
+          </div>
+          <code>{details?.codeSnippet}</code>
+        </pre>
+
+        <div className="flex items-center gap-6 text-sm text-slate-200">
           <span className="flex items-center gap-1">
-            <FiThumbsUp /> {question?.likes}
+            <FiThumbsUp size={18} /> {question?.likes}
           </span>
           <span className="flex items-center gap-1">
-            <FiMessageCircle /> {question?.comments}
+            <FiMessageCircle size={18} /> {question?.comments}
           </span>
           <span className="flex items-center gap-1">
-            <FiEye /> {question?.views}
+            <FiEye size={18} /> {question?.views}
           </span>
         </div>
 
         <div className="flex gap-2 mt-4">
           {details?.hashtags.map((t) => (
             <span
-              key={t}
+              key={t._id}
               className="text-xs px-2 py-1 bg-slate-700/40 border border-slate-700 rounded-md"
             >
               #{t.tag}
@@ -111,8 +128,42 @@ export default function QuestionDetails() {
         </div>
       </div>
 
+      {/* Post Answer Section */}
+      <div className="bg-slate-800/40 p-6 rounded-xl border border-gray-700 shadow-sm">
+        <h3 className="text-lg font-semibold flex items-center gap-2">
+          <span className="w-1.5 h-6 bg-blue-600 rounded-md"></span>
+          Post Your Answer
+        </h3>
+
+        <p className="text-gray-400 text-sm mt-1">
+          Share what you tried, expected output, and relevant details.
+        </p>
+
+        <textarea
+          className="mt-4 w-full min-h-[180px] p-4 bg-gray-900/70 border border-gray-700 text-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 focus:outline-none placeholder-gray-500 resize-y leading-relaxed"
+          placeholder="Write your answer in detail..."
+          value={postAnswer}
+          onChange={(e) => setPostAnswer(e.target.value)}
+        />
+
+        <div className="flex justify-end items-end mt-3">
+          <div
+            className={`
+            pl-2.5 pr-2 py-2 rounded-full cursor-pointer transition-all duration-200
+            ${
+              postAnswer.length >= 30
+                ? "bg-blue-600 text-white hover:bg-blue-700"
+                : "bg-gray-700 text-gray-400 cursor-not-allowed"
+            }
+          `}
+          >
+            <IoMdSend size={18} />
+          </div>
+        </div>
+      </div>
+
       {/* Answers Section */}
-      <h2 className="text-lg font-medium mb-3">Answers ({answers.length})</h2>
+      <h2 className="text-lg font-medium mb-3">Comments ({answers.length})</h2>
       <div className="space-y-4 mb-10">
         {answers.map((ans) => (
           <div

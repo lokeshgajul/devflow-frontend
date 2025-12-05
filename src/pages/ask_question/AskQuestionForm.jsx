@@ -10,6 +10,7 @@ const AskQuestionForm = () => {
   const [tag, setTag] = useState([]);
   const [inputTag, setInputTag] = useState("");
   const [description, setDescription] = useState("");
+  const [codeSnippet, setCodeSnippet] = useState("");
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
@@ -25,6 +26,7 @@ const AskQuestionForm = () => {
             : "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png",
           title,
           description,
+          codeSnippet,
           hashtags: tag,
         }
       );
@@ -121,6 +123,29 @@ const AskQuestionForm = () => {
             <div className="flex justify-between text-gray-500 text-xs mt-1">
               <span>Minimum 30 characters</span>
               <span>{description.length}/30</span>
+            </div>
+          </div>
+
+          {/* Code snippet */}
+          <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+            <h3 className="text-lg font-semibold border-l-4 border-blue-600 pl-2">
+              Your code snippet
+            </h3>
+            <p className="text-gray-500 text-sm mt-1">
+              Paste your code here to help others to understand question context
+              more clearly...
+            </p>
+
+            <textarea
+              className="mt-4 w-full min-h-[200px] p-3 bg-gray-900 border border-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"
+              placeholder="paste your code here..."
+              value={codeSnippet}
+              onChange={(e) => setCodeSnippet(e.target.value)}
+            />
+
+            <div className="flex justify-between text-gray-500 text-xs mt-1">
+              <span>Minimum 30 characters</span>
+              <span>{codeSnippet.length}/30</span>
             </div>
           </div>
 

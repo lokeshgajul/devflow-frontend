@@ -22,7 +22,7 @@ const Header = () => {
             </div>
 
             <div>
-              <ul className="flex flex-row gap-4  text-gray-300 font-normal">
+              <ul className="flex flex-row gap-4 max-md:hidden text-gray-300 font-normal">
                 <li className="cursor-pointer">Home</li>
                 <li className="cursor-pointer">Categories</li>
                 <li className="cursor-pointer">Leaderboard</li>
