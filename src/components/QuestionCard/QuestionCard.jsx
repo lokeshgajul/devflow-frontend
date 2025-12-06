@@ -10,50 +10,16 @@ import { useNavigate } from "react-router-dom";
 
 const QuestionCard = ({ questionData }) => {
   const navigate = useNavigate();
-  const questions = [
-    {
-      id: 1,
-      title: "Why is my React useEffect running twice in development?",
-      description:
-        "I've noticed useEffect fires twice only on development build — how do I avoid duplicate side-effects?",
-      user: "sajal_dev",
-      avatar: "https://i.pravatar.cc/40?img=3",
-      likes: 42,
-      comments: 12,
-      views: 1_204,
-      tags: ["react", "hooks", "useeffect"],
-    },
-    {
-      id: 2,
-      title: "Best way to model relationships in MongoDB?",
-      description:
-        "Should I embed documents or use references for a blog platform with authors and comments?",
-      user: "maria",
-      avatar: "https://i.pravatar.cc/40?img=5",
-      likes: 18,
-      comments: 6,
-      views: 642,
-      tags: ["mongodb", "database", "design"],
-    },
-    {
-      id: 3,
-      title: "Node.js: How to gracefully shutdown an Express server?",
-      description:
-        "When deploying, I want to handle SIGTERM and close DB connections elegantly—what's the pattern?",
-      user: "ajay99",
-      avatar: "https://i.pravatar.cc/40?img=8",
-      likes: 27,
-      comments: 9,
-      views: 987,
-      tags: ["nodejs", "express", "devops"],
-    },
-  ];
+
   return (
     <div className="space-y-4">
       {questionData?.map((q, index) => (
         <article
           key={index}
-          onClick={() => navigate(`/details/${q._id}`)}
+          onClick={() => {
+            const encodedId = btoa(q._id);
+            navigate(`/details/${encodedId}`);
+          }}
           className="bg-gray-800/85 py-8 px-4 rounded-2xl cursor-pointer border border-slate-700 shadow-md hover:scale-[1.003] transition-transform"
         >
           <div className="flex items-start gap-4">
@@ -75,7 +41,7 @@ const QuestionCard = ({ questionData }) => {
               </div>
 
               <p className="text-sm text-slate-300 mt-2 line-clamp-2">
-                {q.description}
+                {q.description.slice(0, 130)}...
               </p>
 
               <div className="flex items-center flex-wrap gap-2 pt-3">

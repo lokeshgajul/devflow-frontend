@@ -6,6 +6,34 @@ export const QnAContext = createContext();
 
 export const QnAProvider = ({ children }) => {
   const [questionData, setQuestionData] = useState();
+  const [details, setDetails] = useState();
+  const [answers, setAnswers] = useState();
+
+  const getQuestionDetailsById = async (id) => {
+    try {
+      const res = await axios.post(
+        `http://localhost:3000/api/question/${id}`,
+        {},
+        { withCredentials: true }
+      );
+
+      setDetails(res.data.details);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const getAllAnswers = async (questionId) => {
+    try {
+      const res = await axios.post("http://localhost:3000/api/get-answers", {
+        questionId,
+      });
+
+      setAnswers(res.data.allAnswers);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   const getAllQuestions = async () => {
     try {
@@ -15,7 +43,6 @@ export const QnAProvider = ({ children }) => {
 
       const data = await res.data;
       setQuestionData(data.allQuestions);
-      console.log("data ", data);
     } catch (error) {
       console.log(error);
     }
@@ -24,6 +51,10 @@ export const QnAProvider = ({ children }) => {
   const value = {
     questionData,
     getAllQuestions,
+    details,
+    answers,
+    getQuestionDetailsById,
+    getAllAnswers,
   };
   return <QnAContext.Provider value={value}>{children}</QnAContext.Provider>;
 };

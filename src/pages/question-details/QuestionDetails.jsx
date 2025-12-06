@@ -5,32 +5,55 @@ import { FaRegCopy } from "react-icons/fa6";
 import { IoMdSend } from "react-icons/io";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useContext } from "react";
+import { QnAContext } from "../../context/QuestionContext";
+import { AuthContext } from "../../context/AuthContext";
+import AnswerCard from "../../components/AnswerCard/AnswerCard";
 
 export default function QuestionDetails() {
   const { id } = useParams();
-  const [details, setDetails] = useState();
+  const decodedId = atob(id);
   const [postAnswer, setPostAnswer] = useState("");
-  console.log(id);
 
-  const getQuestionById = async () => {
+  const { getQuestionDetailsById, details, getAllAnswers, answers } =
+    useContext(QnAContext);
+  const { user } = useContext(AuthContext);
+
+  const postAnswerToQuestion = async () => {
     try {
-      const res = await axios.post(
-        `http://localhost:3000/api/question/${id}`,
-        {},
+      const response = await axios.post(
+        "http://localhost:3000/api/post-answer",
+        {
+          userId: user._id,
+          username: user.username,
+          userAvatar: user.avatar,
+          questionId: details._id,
+          questionTitle: details.title,
+          answer: postAnswer,
+        },
         { withCredentials: true }
       );
 
-      const data = await res.data;
-      setDetails(data.details);
-      console.log("Details ", data);
+      const data = await response.data;
+      getAllAnswers(details?._id);
     } catch (error) {
       console.log("error ", error);
+    } finally {
+      setPostAnswer("");
     }
   };
 
   useEffect(() => {
-    if (id) getQuestionById();
-  }, [id]);
+    if (decodedId) {
+      getQuestionDetailsById(decodedId);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (details?._id) {
+      getAllAnswers(details?._id);
+    }
+  }, [details, decodedId]);
 
   const question = {
     id: 1,
@@ -44,25 +67,6 @@ export default function QuestionDetails() {
     views: 1_204,
     tags: ["react", "hooks", "useeffect"],
   };
-
-  const answers = [
-    {
-      id: 1,
-      user: "maria",
-      avatar: "https://i.pravatar.cc/40?img=5",
-      content:
-        "React Strict Mode intentionally calls some lifecycle methods twice to detect unsafe side effects. You can safely ignore this in dev.",
-      likes: 15,
-    },
-    {
-      id: 2,
-      user: "ajay99",
-      avatar: "https://i.pravatar.cc/40?img=8",
-      content:
-        "To prevent double calls during dev, avoid running data fetch directly in useEffect without cleanup or dependency checks.",
-      likes: 9,
-    },
-  ];
 
   const similarQuestions = [
     {
@@ -148,10 +152,11 @@ export default function QuestionDetails() {
 
         <div className="flex justify-end items-end mt-3">
           <div
+            onClick={postAnswerToQuestion}
             className={`
             pl-2.5 pr-2 py-2 rounded-full cursor-pointer transition-all duration-200
             ${
-              postAnswer.length >= 30
+              postAnswer.length >= 15
                 ? "bg-blue-600 text-white hover:bg-blue-700"
                 : "bg-gray-700 text-gray-400 cursor-not-allowed"
             }
@@ -163,25 +168,8 @@ export default function QuestionDetails() {
       </div>
 
       {/* Answers Section */}
-      <h2 className="text-lg font-medium mb-3">Comments ({answers.length})</h2>
-      <div className="space-y-4 mb-10">
-        {answers.map((ans) => (
-          <div
-            key={ans.id}
-            className="bg-slate-800/30 p-4 rounded-xl border border-slate-700"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <img src={ans.avatar} className="w-9 h-9 rounded-full" />
-              <span className="text-slate-200 text-sm font-medium">
-                {ans.user}
-              </span>
-            </div>
-            <p className="text-slate-300 text-sm mb-3">{ans.content}</p>
-            <button className="flex items-center gap-2 text-sm text-slate-400 hover:text-white">
-              <FiThumbsUp /> {ans.likes}
-            </button>
-          </div>
-        ))}
+      <div>
+        <AnswerCard answers={answers} />
       </div>
 
       {/* Similar Questions */}
@@ -200,7 +188,7 @@ export default function QuestionDetails() {
       {/* Floating AI Button */}
       <button
         aria-label="Open AI Bot"
-        className="fixed bottom-8 right-6 w-14 h-14 rounded-full bg-linear-to-br from-sky-500 to-indigo-600 flex items-center justify-center shadow-2xl ring-2 ring-sky-600/30"
+        className="fixed bottom-8 right-6 w-14 h-14 rounded-full cursor-pointer bg-linear-to-br from-sky-500 to-indigo-600 flex items-center justify-center shadow-2xl ring-2 ring-sky-600/30"
       >
         <AiOutlineRobot className="w-6 h-6 text-white" />
       </button>
