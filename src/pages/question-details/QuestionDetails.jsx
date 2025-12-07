@@ -26,7 +26,9 @@ export default function QuestionDetails() {
         {
           userId: user._id,
           username: user.username,
-          userAvatar: user.avatar,
+          userAvatar:
+            user.avatar ||
+            "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png",
           questionId: details._id,
           questionTitle: details.title,
           answer: postAnswer,
@@ -93,7 +95,7 @@ export default function QuestionDetails() {
 
         <pre
           className="
-            bg-gray-900/70 text-gray-200 p-5 rounded-lg my-4
+            bg-gray-900/70 max-h-96 text-gray-200 p-5 rounded-lg my-4
             overflow-x-auto overflow-y-auto text-sm  [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full"
         >
           <div className="flex flex-row justify-between items-center py-2">

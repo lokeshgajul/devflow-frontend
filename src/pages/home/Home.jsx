@@ -4,6 +4,7 @@ import QuestionCard from "../../components/QuestionCard/QuestionCard";
 import TopContributors from "../../components/TopContributos/TopContributors";
 import { useNavigate } from "react-router-dom";
 import { QnAContext } from "../../context/QuestionContext";
+import QuestionFeed from "../../components/QuestionFeed/QuestionFeed";
 
 export default function Home() {
   const trending = ["react", "tailwind", "mongodb", "javascript", "ai"];
@@ -37,7 +38,7 @@ export default function Home() {
           </div>
 
           <div className="space-y-4">
-            <QuestionCard questionData={questionData} />
+            <QuestionFeed questionData={questionData} />
           </div>
         </section>
 

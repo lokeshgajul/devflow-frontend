@@ -4,7 +4,6 @@ import { FiThumbsUp, FiMessageCircle, FiEye } from "react-icons/fi";
 const AnswerCard = ({ answers }) => {
   return (
     <div>
-      {" "}
       <h2 className="text-lg font-medium mb-3 mt-3">
         Comments ({answers?.length})
       </h2>
@@ -20,7 +19,12 @@ const AnswerCard = ({ answers }) => {
                 {ans?.username}
               </span>
             </div>
-            <p className="text-slate-300 text-sm mb-3">{ans?.answer}</p>
+
+            {/* 🔑 FIX APPLIED HERE: whitespace-pre-wrap */}
+            <p className="text-slate-300 text-sm mb-3 whitespace-pre-wrap">
+              {ans?.answer}
+            </p>
+
             <button className="flex items-center gap-2 text-sm text-slate-400 hover:text-white">
               <FiThumbsUp /> {ans?.likes}
             </button>

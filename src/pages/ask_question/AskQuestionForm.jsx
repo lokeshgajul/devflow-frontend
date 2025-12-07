@@ -15,15 +15,20 @@ const AskQuestionForm = () => {
   const { user } = useContext(AuthContext);
 
   const postQuestion = async () => {
+    if (!user || !user._id) {
+      console.error("User data is missing, cannot post question.");
+      return;
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:3000/api/ask-question",
         {
           userId: user._id,
           username: user.username,
-          avatar: user.avatar
-            ? user?.avatar
-            : "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png",
+          avatar:
+            user.avatar ||
+            "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png",
           title,
           description,
           codeSnippet,
