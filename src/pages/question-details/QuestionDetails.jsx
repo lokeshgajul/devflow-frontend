@@ -18,6 +18,7 @@ export default function QuestionDetails() {
   const { getQuestionDetailsById, details, getAllAnswers, answers } =
     useContext(QnAContext);
   const { user } = useContext(AuthContext);
+  const { comments } = useContext(QnAContext);
 
   const postAnswerToQuestion = async () => {
     try {
@@ -36,7 +37,6 @@ export default function QuestionDetails() {
         { withCredentials: true }
       );
 
-      const data = await response.data;
       getAllAnswers(details?._id);
     } catch (error) {
       console.log("error ", error);
@@ -112,10 +112,10 @@ export default function QuestionDetails() {
 
         <div className="flex items-center gap-6 text-sm text-slate-200">
           <span className="flex items-center gap-1">
-            <FiThumbsUp size={18} /> {question?.likes}
+            <FiThumbsUp size={18} /> {details?.likes}
           </span>
           <span className="flex items-center gap-1">
-            <FiMessageCircle size={18} /> {question?.comments}
+            <FiMessageCircle size={18} /> {comments?.comments}
           </span>
           <span className="flex items-center gap-1">
             <FiEye size={18} /> {question?.views}

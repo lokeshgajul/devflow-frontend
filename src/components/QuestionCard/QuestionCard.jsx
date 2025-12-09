@@ -4,9 +4,11 @@ import { FiMessageCircle } from "react-icons/fi";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { QnAContext } from "../../context/QuestionContext";
 
 const QuestionItem = ({ question }) => {
   const { user } = useContext(AuthContext);
+  const { getAllAnswers, comments } = useContext(QnAContext);
   const navigate = useNavigate();
   const [likes, setLikes] = useState(question?.likes || 0);
   const [isLiked, setIsLiked] = useState(false);
@@ -14,11 +16,15 @@ const QuestionItem = ({ question }) => {
   useEffect(() => {
     if (question) {
       setLikes(question.likes || 0);
-      console.log(question.likes);
       const userHasLiked = user?._id && question.likedBy?.includes(user._id);
       setIsLiked(userHasLiked);
     }
   }, [question, user?._id]);
+
+  useEffect(() => {
+    getAllAnswers(question._id);
+    console.log(question._id);
+  }, []);
 
   const handleLike = async () => {
     if (!user?._id) return alert("Please log in to like questions.");
@@ -107,7 +113,8 @@ const QuestionItem = ({ question }) => {
                 </span>
 
                 <span className="flex items-center gap-1">
-                  <FiMessageCircle size={18} /> <span>{3}</span>
+                  <FiMessageCircle size={18} />{" "}
+                  <span>{comments?.comments}</span>
                 </span>
               </div>
             </div>

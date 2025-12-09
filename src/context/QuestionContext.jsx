@@ -6,6 +6,7 @@ export const QnAContext = createContext();
 
 export const QnAProvider = ({ children }) => {
   const [questionData, setQuestionData] = useState();
+  const [comments, setComments] = useState();
   const [details, setDetails] = useState();
   const [answers, setAnswers] = useState();
 
@@ -30,6 +31,7 @@ export const QnAProvider = ({ children }) => {
       });
 
       setAnswers(res.data.allAnswers);
+      setComments(res.data);
     } catch (error) {
       console.log("error", error);
     }
@@ -55,6 +57,7 @@ export const QnAProvider = ({ children }) => {
     answers,
     getQuestionDetailsById,
     getAllAnswers,
+    comments,
   };
   return <QnAContext.Provider value={value}>{children}</QnAContext.Provider>;
 };

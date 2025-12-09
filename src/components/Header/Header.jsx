@@ -1,7 +1,5 @@
 import React from "react";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CiSearch } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa6";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
