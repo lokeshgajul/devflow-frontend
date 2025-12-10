@@ -21,11 +21,6 @@ const QuestionItem = ({ question }) => {
     }
   }, [question, user?._id]);
 
-  useEffect(() => {
-    getAllAnswers(question._id);
-    console.log(question._id);
-  }, []);
-
   const handleLike = async () => {
     if (!user?._id) return alert("Please log in to like questions.");
 
@@ -114,7 +109,7 @@ const QuestionItem = ({ question }) => {
 
                 <span className="flex items-center gap-1">
                   <FiMessageCircle size={18} />{" "}
-                  <span>{comments?.comments}</span>
+                  <span>{question?.comments || 0}</span>
                 </span>
               </div>
             </div>

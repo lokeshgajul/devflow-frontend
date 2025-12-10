@@ -22,7 +22,7 @@ const AskQuestionForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/ask-question",
+        "http://localhost:3000/api/question/ask-question",
         {
           userId: user._id,
           username: user.username,

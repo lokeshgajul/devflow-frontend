@@ -4,10 +4,10 @@ import { FiThumbsUp, FiMessageCircle, FiEye } from "react-icons/fi";
 const AnswerCard = ({ answers }) => {
   return (
     <div>
-      <h2 className="text-lg font-medium mb-3 mt-3">
+      <h2 className="text-lg font-medium mt-3 mb-3">
         Comments ({answers?.length})
       </h2>
-      <div className="space-y-4 mb-10">
+      <div className="space-y-3 mb-8">
         {answers?.map((ans) => (
           <div
             key={ans?._id}

@@ -24,11 +24,13 @@ export default function Home() {
         {/* Feed */}
         <section className="md:col-span-2">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="max-md:text-lg text-xl font-semibold">
+            <h2 className="text-sm sm:text-lg md:xl font-semibold">
               All Questions
             </h2>
             <div className="flex items-center gap-3">
-              <div className="text-sm text-slate-400">Sort:</div>
+              <div className="text-sm text-slate-400 hidden sm:block">
+                Sort:
+              </div>
               <select className="bg-slate-800/40 px-3 py-1 rounded-md text-sm">
                 <option>Newest</option>
                 <option>Most Liked</option>

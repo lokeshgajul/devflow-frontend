@@ -24,11 +24,44 @@ export const QnAProvider = ({ children }) => {
     }
   };
 
+  const getAllQuestions = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:3000/api/question/all_question",
+        {
+          withCredentials: true,
+        }
+      );
+
+      const data = await res.data;
+      setQuestionData(data.allQuestions);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getAllQuestionsCreatedByUser = async (userId) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/question/user-questions",
+        { userId }
+      );
+
+      const data = await response.data;
+      return data;
+    } catch (error) {
+      console.log("Error ", error);
+    }
+  };
+
   const getAllAnswers = async (questionId) => {
     try {
-      const res = await axios.post("http://localhost:3000/api/get-answers", {
-        questionId,
-      });
+      const res = await axios.post(
+        "http://localhost:3000/api/answer/get-answers",
+        {
+          questionId,
+        }
+      );
 
       setAnswers(res.data.allAnswers);
       setComments(res.data);
@@ -37,16 +70,17 @@ export const QnAProvider = ({ children }) => {
     }
   };
 
-  const getAllQuestions = async () => {
+  const getAllAnswersCreatedByUser = async (userId) => {
     try {
-      const res = await axios.get("http://localhost:3000/api/all_question", {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        "http://localhost:3000/api/answer/user-answers",
+        { userId }
+      );
 
-      const data = await res.data;
-      setQuestionData(data.allQuestions);
+      const data = await response.data;
+      return data;
     } catch (error) {
-      console.log(error);
+      console.log("Error ", error);
     }
   };
 
@@ -58,6 +92,8 @@ export const QnAProvider = ({ children }) => {
     getQuestionDetailsById,
     getAllAnswers,
     comments,
+    getAllQuestionsCreatedByUser,
+    getAllAnswersCreatedByUser,
   };
   return <QnAContext.Provider value={value}>{children}</QnAContext.Provider>;
 };

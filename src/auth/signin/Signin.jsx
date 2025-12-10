@@ -40,7 +40,7 @@ const Signin = () => {
           onClick={() =>
             window.open("http://localhost:3000/auth/google", "_self")
           }
-          className="w-full border border-gray-600 py-2.5 mt-6 rounded-lg flex justify-center items-center gap-3 hover:bg-[#273449] transition text-white font-medium"
+          className="w-full border cursor-pointer border-gray-600 py-2.5 mt-6 rounded-lg flex justify-center items-center gap-3 hover:bg-[#273449] transition text-white font-medium"
         >
           <FcGoogle size={24} />
           Continue with Google

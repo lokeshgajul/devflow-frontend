@@ -20,10 +20,12 @@ export default function QuestionDetails() {
   const { user } = useContext(AuthContext);
   const { comments } = useContext(QnAContext);
 
+  console.log(details?._id);
+
   const postAnswerToQuestion = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/post-answer",
+        "http://localhost:3000/api/answer/post-answer",
         {
           userId: user._id,
           username: user.username,
@@ -48,14 +50,9 @@ export default function QuestionDetails() {
   useEffect(() => {
     if (decodedId) {
       getQuestionDetailsById(decodedId);
+      getAllAnswers(decodedId);
     }
   }, []);
-
-  useEffect(() => {
-    if (details?._id) {
-      getAllAnswers(details?._id);
-    }
-  }, [details, decodedId]);
 
   const question = {
     id: 1,
@@ -84,7 +81,7 @@ export default function QuestionDetails() {
   return (
     <div className="min-h-screen text-gray-100  px-6 py-8 max-w-5xl mx-auto">
       {/* Question Section */}
-      <div className="bg-slate-800/40 p-6 rounded-2xl border border-slate-700 mb-6">
+      <div className="bg-slate-800/40 p-6 rounded-2xl border border-slate-700 ">
         <div className="flex items-center gap-3">
           <img src={question.avatar} className="w-10 h-10 rounded-full" />
           <span className="text-slate-200 text-sm">{details?.username}</span>
@@ -115,7 +112,7 @@ export default function QuestionDetails() {
             <FiThumbsUp size={18} /> {details?.likes}
           </span>
           <span className="flex items-center gap-1">
-            <FiMessageCircle size={18} /> {comments?.comments}
+            <FiMessageCircle size={18} /> {details?.comments}
           </span>
           <span className="flex items-center gap-1">
             <FiEye size={18} /> {question?.views}
@@ -135,7 +132,7 @@ export default function QuestionDetails() {
       </div>
 
       {/* Post Answer Section */}
-      <div className="bg-slate-800/40 p-6 rounded-xl border border-gray-700 shadow-sm">
+      <div className="bg-slate-800/40 p-6 rounded-xl border mt-4 border-gray-700 shadow-sm">
         <h3 className="text-lg font-semibold flex items-center gap-2">
           <span className="w-1.5 h-6 bg-blue-600 rounded-md"></span>
           Post Your Answer
@@ -175,7 +172,7 @@ export default function QuestionDetails() {
       </div>
 
       {/* Similar Questions */}
-      <h3 className="text-lg font-medium mb-3">Similar Questions</h3>
+      <h3 className="text-lg font-medium ">Similar Questions</h3>
       <ul className="space-y-2">
         {similarQuestions.map((sq) => (
           <li

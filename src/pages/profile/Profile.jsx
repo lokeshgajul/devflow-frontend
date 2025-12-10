@@ -1,85 +1,53 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaMapMarkerAlt, FaLink, FaTwitter, FaCalendar } from "react-icons/fa";
+import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
+import { QnAContext } from "../../context/QuestionContext";
 
 const Profile = () => {
+  const { logOut, user } = useContext(AuthContext);
+  const { getAllQuestionsCreatedByUser, getAllAnswersCreatedByUser } =
+    useContext(QnAContext);
   const [checkmode, setCheckmode] = useState("questions");
+  const [userData, setUserData] = useState(null);
+  const [userQuestion, setUserQuestions] = useState();
+  const [usreAnswers, setUserAnswers] = useState();
 
-  const questions = [
-    {
-      id: 1,
-      title: "Why is my React useEffect running twice in development?",
-      description:
-        "In React Strict Mode, useEffect may run twice to help identify side effects. How do I prevent duplicate execution?",
-      user: "sajal_dev",
-      avatar: "https://i.pravatar.cc/40?img=3",
-      likes: 42,
-      comments: 12,
-      views: 1_204,
-      tags: ["react", "hooks", "useeffect"],
-    },
-    {
-      id: 2,
-      title: "Why is my React useEffect running twice in development?",
-      description:
-        "In React Strict Mode, useEffect may run twice to help identify side effects. How do I prevent duplicate execution?",
-      user: "sajal_dev",
-      avatar: "https://i.pravatar.cc/40?img=3",
-      likes: 42,
-      comments: 12,
-      views: 1_204,
-      tags: ["react", "hooks", "useeffect"],
-    },
-    {
-      id: 3,
-      title: "Why is my React useEffect running twice in development?",
-      description:
-        "In React Strict Mode, useEffect may run twice to help identify side effects. How do I prevent duplicate execution?",
-      user: "sajal_dev",
-      avatar: "https://i.pravatar.cc/40?img=3",
-      likes: 42,
-      comments: 12,
-      views: 1_204,
-      tags: ["react", "hooks", "useeffect"],
-    },
-  ];
-  const answers = [
-    {
-      id: 1,
-      title: " React useEffect running twice in development?",
-      description:
-        "In React Strict Mode, useEffect may run twice to help identify side effects. How do I prevent duplicate execution?",
-      user: "sajal_dev",
-      avatar: "https://i.pravatar.cc/40?img=3",
-      likes: 42,
-      comments: 12,
-      views: 1_204,
-      tags: ["react", "hooks", "useeffect"],
-    },
-    {
-      id: 2,
-      title: " React useEffect running twice in development?",
-      description:
-        "In React Strict Mode, useEffect may run twice to help identify side effects. How do I prevent duplicate execution?",
-      user: "sajal_dev",
-      avatar: "https://i.pravatar.cc/40?img=3",
-      likes: 42,
-      comments: 12,
-      views: 1_204,
-      tags: ["react", "hooks", "useeffect"],
-    },
-    {
-      id: 3,
-      title: " React useEffect running twice in development?",
-      description:
-        "In React Strict Mode, useEffect may run twice to help identify side effects. How do I prevent duplicate execution?",
-      user: "sajal_dev",
-      avatar: "https://i.pravatar.cc/40?img=3",
-      likes: 42,
-      comments: 12,
-      views: 1_204,
-      tags: ["react", "hooks", "useeffect"],
-    },
-  ];
+  useEffect(() => {
+    const handleQuestions = async () => {
+      const questionData = await getAllQuestionsCreatedByUser(user?._id);
+      setUserQuestions(questionData.questions);
+      console.log(questionData);
+    };
+    if (user?._id) handleQuestions();
+  }, [user?._id]);
+
+  useEffect(() => {
+    const handleAnswers = async () => {
+      const answerData = await getAllAnswersCreatedByUser(user?._id);
+      setUserAnswers(answerData.answers);
+      console.log(answerData);
+    };
+    if (user?._id) handleAnswers();
+  }, [user?._id]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/user/user-details",
+          { userId: user._id }
+        );
+
+        setUserData(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.log("Error", error);
+      }
+    };
+
+    if (user?._id) fetchUser();
+  }, [user?._id]);
 
   return (
     <div className="max-w-7xl mx-auto min-h-screen bg-[#0F172A] text-white p-6">
@@ -87,20 +55,28 @@ const Profile = () => {
         <div className="bg-[#1E293B] md:col-span-3 lg:col-span-3 rounded-xl p-6 md:p-10 shadow-lg">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
             <div className="md:col-span-1 md:p-5 flex md:justify-center md:items-center flex-col">
-              <img
-                src="https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png"
-                alt="Profile"
-                className="w-28 h-28 rounded-full bg-gray-700"
-              />
-              <div className=" flex justify-start items-center max-md:ml-3">
+              <div className="w-28 h-28">
+                <img
+                  src="https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png"
+                  alt="Profile"
+                  className="w-full h-full rounded-full bg-gray-700"
+                />
+              </div>
+              <div className="gap-3 flex justify-start items-center">
                 <button className="px-2 py-2 mt-4 md:mt-8 bg-blue-500 max-w-fit hover:bg-blue-600 rounded-md text-xs font-medium">
                   Edit Profile
+                </button>
+                <button
+                  onClick={() => logOut()}
+                  className="px-2 py-2 mt-4 md:mt-8 bg-blue-500 max-w-fit hover:bg-blue-600 rounded-md text-xs font-medium"
+                >
+                  LogOut
                 </button>
               </div>
             </div>
             <div className="md:col-span-4">
               <h1 className="text-3xl font-semibold">Alex Kumar</h1>
-              <p className="text-gray-400">@alex_kumar</p>
+              <p className="text-gray-400">@{userData?.userDetails.username}</p>
 
               <p className="mt-4 text-gray-300 max-w-xl">
                 Full-stack developer passionate about React and Node.js. Love
@@ -113,11 +89,11 @@ const Profile = () => {
                   <p className="text-gray-400 text-sm mt-1">Reputation</p>
                 </div>
                 <div>
-                  <p className="text-3xl font-bold">24</p>
+                  <p className="text-3xl font-bold">{userQuestion?.length}</p>
                   <p className="text-gray-400 text-sm mt-1">Questions</p>
                 </div>
                 <div>
-                  <p className="text-3xl font-bold">156</p>
+                  <p className="text-3xl font-bold">{usreAnswers?.length}</p>
                   <p className="text-gray-400 text-sm mt-1">Answers</p>
                 </div>
                 <div>
@@ -180,8 +156,6 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* user qustions and answers */}
-
       <div className="my-5 w-fit space-x-2 rounded-lg  py-2  bg-[#1E293B]">
         <span
           onClick={() => setCheckmode("questions")}
@@ -205,10 +179,10 @@ const Profile = () => {
         </span>
       </div>
       {checkmode === "questions"
-        ? questions.map((que, index) => {
+        ? userQuestion?.map((que, index) => {
             return (
               <div
-                key={que.id}
+                key={index}
                 className="bg-[#1E293B] text-white p-4 rounded-xl my-4 shadow-md hover:scale-[1.003] transition-transform"
               >
                 {/* User Info */}
@@ -224,70 +198,54 @@ const Profile = () => {
                   </div>
                 </div>
 
-                {/* Description */}
                 <p className="text-gray-300 mb-3">{que.description}</p>
 
-                {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-3">
-                  {que.tags.map((tag) => (
+                  {que.hashtags.map((item, index) => (
                     <span
-                      key={tag}
-                      className="bg-[#0F172A] px-3 py-1 rounded-full text-xs text-gray-300"
+                      key={index}
+                      className="bg-[#0F172A] px-3 py-1 rounded-md text-xs md:text-sm text-gray-300"
                     >
-                      #{tag}
+                      #{item.tag}
                     </span>
                   ))}
                 </div>
 
-                {/* Stats */}
                 <div className="flex items-center gap-5 text-sm text-gray-400">
                   <span>👍 {que.likes}</span>
                   <span>💬 {que.comments}</span>
-                  <span>👀 {que.views}</span>
                 </div>
               </div>
             );
           })
-        : answers.map((ans, index) => {
+        : usreAnswers?.map((ans, index) => {
             return (
               <div
-                key={ans.id}
+                key={index}
                 className="bg-[#1E293B] text-white p-4 rounded-xl my-6 shadow-md hover:scale-[1.003] transition-transform"
               >
                 {/* User Info */}
                 <div className="flex items-center gap-3 mb-2">
                   <img
-                    src={ans.avatar}
+                    src={ans.userAvatar}
                     alt={ans.user}
                     className="w-10 h-10 rounded-full"
                   />
                   <div>
-                    <h3 className="font-semibold">{ans.user}</h3>
-                    <p className="text-gray-400 text-sm">{ans.title}</p>
+                    <h3 className="font-semibold">{ans.username}</h3>
+                    <p className="text-gray-400 text-sm">{ans.questionTitle}</p>
                   </div>
                 </div>
 
                 {/* Description */}
-                <p className="text-gray-300 mb-3">{ans.description}</p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-3">
-                  {ans.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="bg-[#0F172A] px-3 py-1 rounded-full text-xs text-gray-300"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
+                <p className="text-gray-300 mb-3">{ans.answer}</p>
 
                 {/* Stats */}
-                <div className="flex items-center gap-5 text-sm text-gray-400">
+                {/* <div className="flex items-center gap-5 text-sm text-gray-400">
                   <span>👍 {ans.likes}</span>
                   <span>💬 {ans.comments}</span>
                   <span>👀 {ans.views}</span>
-                </div>
+                </div> */}
               </div>
             );
           })}

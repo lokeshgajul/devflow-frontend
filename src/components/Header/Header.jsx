@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -21,10 +21,18 @@ const Header = () => {
 
             <div>
               <ul className="flex flex-row gap-4 max-md:hidden text-gray-300 font-normal">
-                <li className="cursor-pointer">Home</li>
-                <li className="cursor-pointer">Categories</li>
-                <li className="cursor-pointer">Leaderboard</li>
-                <li className="cursor-pointer">About</li>
+                <li className="cursor-pointer">
+                  <Link to="/home"> Home </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link to="/categories"> Categories </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link to="/leaderboard"> Leaderboard </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link to="/about"> About </Link>
+                </li>
               </ul>
             </div>
             <div className=" flex flex-row justify-center items-center gap-6">
