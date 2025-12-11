@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaMapMarkerAlt, FaLink, FaTwitter, FaCalendar } from "react-icons/fa";
+import { SlSocialLinkedin } from "react-icons/sl";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { QnAContext } from "../../context/QuestionContext";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { logOut, user } = useContext(AuthContext);
@@ -12,6 +14,7 @@ const Profile = () => {
   const [userData, setUserData] = useState(null);
   const [userQuestion, setUserQuestions] = useState();
   const [usreAnswers, setUserAnswers] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleQuestions = async () => {
@@ -39,7 +42,7 @@ const Profile = () => {
           { userId: user._id }
         );
 
-        setUserData(response.data);
+        setUserData(response.data.userDetails);
         console.log(response.data);
       } catch (error) {
         console.log("Error", error);
@@ -63,25 +66,27 @@ const Profile = () => {
                 />
               </div>
               <div className="gap-3 flex justify-start items-center">
-                <button className="px-2 py-2 mt-4 md:mt-8 bg-blue-500 max-w-fit hover:bg-blue-600 rounded-md text-xs font-medium">
+                <button
+                  onClick={() => navigate("/edit-profile")}
+                  className="px-2 py-2 mt-4 md:mt-8 bg-blue-500 max-w-fit hover:bg-blue-600 rounded-md text-sm font-medium"
+                >
                   Edit Profile
                 </button>
                 <button
                   onClick={() => logOut()}
-                  className="px-2 py-2 mt-4 md:mt-8 bg-blue-500 max-w-fit hover:bg-blue-600 rounded-md text-xs font-medium"
+                  className="px-2 py-2 mt-4 md:mt-8 bg-blue-500 max-w-fit hover:bg-blue-600 rounded-md text-sm font-medium"
                 >
                   LogOut
                 </button>
               </div>
             </div>
             <div className="md:col-span-4">
-              <h1 className="text-3xl font-semibold">Alex Kumar</h1>
-              <p className="text-gray-400">@{userData?.userDetails.username}</p>
+              <h1 className="text-xl font-semibold py-0.5">
+                {userData?.fullName}
+              </h1>
+              <p className="text-gray-400">@{userData?.username}</p>
 
-              <p className="mt-4 text-gray-300 max-w-xl">
-                Full-stack developer passionate about React and Node.js. Love
-                helping others solve coding challenges.
-              </p>
+              <p className="mt-4 text-gray-300 max-w-xl">{userData?.bio}</p>
 
               <div className="flex flex-wrap gap-10 text-center mt-6">
                 <div>
@@ -104,33 +109,60 @@ const Profile = () => {
 
               <div className="flex flex-wrap items-center gap-6 mt-6 text-gray-400 text-sm">
                 <span className="flex items-center gap-2">
-                  <FaMapMarkerAlt /> San Francisco, CA
+                  <FaMapMarkerAlt /> {userData?.location || "Not added"}
+                </span>
+
+                <span className="flex items-center gap-2">
+                  <a
+                    href={userData?.portfolio}
+                    target="_blank"
+                    className="flex items-center gap-2 hover:text-white transition"
+                  >
+                    <FaLink /> {userData?.portfolio || "Not added"}
+                  </a>
+                </span>
+
+                <span className="flex items-center gap-2">
+                  <a
+                    href={userData?.socialLinks?.twitter}
+                    target="_blank"
+                    className="flex items-center gap-2 hover:text-white transition"
+                  >
+                    <FaTwitter />{" "}
+                    {userData?.socialLinks?.twitter || "Not added"}
+                  </a>
                 </span>
                 <span className="flex items-center gap-2">
-                  <FaLink /> alexkumar.dev
+                  <a
+                    href={userData?.socialLinks?.linkedIn}
+                    target="_blank"
+                    className="flex items-center gap-2 hover:text-white transition"
+                  >
+                    <SlSocialLinkedin />{" "}
+                    {userData?.socialLinks?.linkedIn.slice(0, 20) ||
+                      "Not added"}
+                  </a>
                 </span>
+
                 <span className="flex items-center gap-2">
-                  <FaTwitter /> @alex_codes
-                </span>
-                <span className="flex items-center gap-2">
-                  <FaCalendar /> Joined January 2023
+                  <FaCalendar /> {userData?.createdAt?.slice(0, 10)}
                 </span>
               </div>
 
               <div className="flex flex-wrap gap-5 mt-6">
                 <div className="bg-[#0F172A] px-5 py-1.5 flex flex-row items-center gap-1.5 rounded-lg text-center">
                   <p className="text-yellow-400 text-sm font-bold">3</p>
-                  <p className="text-xs mt-1 text-gray-400">Gold</p>
+                  <p className="text-xs text-gray-400">Gold</p>
                 </div>
 
-                <div className="bg-[#0F172A] px-5 py-1.5 flex flex-row items-center gap-1.5 rounded-lg text-center">
+                <div className="bg-[#0F172A] px-5 py-1.5 flex flex-row justify-center items-center gap-1.5 rounded-lg text-center">
                   <p className="text-gray-300 text-sm font-bold">12</p>
-                  <p className="text-xs mt-1 text-gray-400">Silver</p>
+                  <p className="text-xs text-gray-400">Silver</p>
                 </div>
 
-                <div className="bg-[#0F172A] px-5 py-1.5 flex flex-row items-center gap-1.5 rounded-lg text-center">
+                <div className="bg-[#0F172A] px-5 py-1.5 flex flex-row justify-center items-center gap-1.5 rounded-lg text-center">
                   <p className="text-orange-400 text-sm font-bold">28</p>
-                  <p className="text-xs mt-1 text-gray-400">Bronze</p>
+                  <p className="text-xs text-gray-400">Bronze</p>
                 </div>
               </div>
             </div>

@@ -12,6 +12,7 @@ import AskQuestionForm from "../pages/ask_question/AskQuestionForm";
 import Footer from "../auth/landingpage/Footer";
 import Header from "../components/Header/Header";
 import QuestionDetails from "../pages/question-details/QuestionDetails";
+import EditProfile from "../pages/edit-profile/EditProfile";
 
 const Main = () => {
   return (
@@ -77,6 +78,15 @@ const Main = () => {
                 <ProtectedRoute>
                   <Header />
                   <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/edit-profile"
+              element={
+                <ProtectedRoute>
+                  <Header />
+                  <EditProfile />
                 </ProtectedRoute>
               }
             />

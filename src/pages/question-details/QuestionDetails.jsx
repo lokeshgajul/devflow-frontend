@@ -18,7 +18,6 @@ export default function QuestionDetails() {
   const { getQuestionDetailsById, details, getAllAnswers, answers } =
     useContext(QnAContext);
   const { user } = useContext(AuthContext);
-  const { comments } = useContext(QnAContext);
 
   console.log(details?._id);
 
@@ -83,7 +82,7 @@ export default function QuestionDetails() {
       {/* Question Section */}
       <div className="bg-slate-800/40 p-6 rounded-2xl border border-slate-700 ">
         <div className="flex items-center gap-3">
-          <img src={question.avatar} className="w-10 h-10 rounded-full" />
+          <img src={details?.avatar} className="w-10 h-10 rounded-full" />
           <span className="text-slate-200 text-sm">{details?.username}</span>
         </div>
 
