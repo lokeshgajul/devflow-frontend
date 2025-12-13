@@ -23,11 +23,11 @@ export default function Home() {
       <main className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 px-6 py-10 pb-20">
         {/* Feed */}
         <section className="md:col-span-2">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center flex-wrap justify-between mb-4">
             <h2 className="text-sm sm:text-lg md:xl font-semibold">
               All Questions
             </h2>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 max-sm:mt-3">
               <div className="text-sm text-slate-400 hidden sm:block">
                 Sort:
               </div>
@@ -96,6 +96,7 @@ export default function Home() {
 
       {/* AI Bot Icon FAB */}
       <button
+        onClick={() => navigate("/ai-assistant")}
         className="
             fixed bottom-6 right-6
             bg-blue-500 hover:bg-blue-600 text-white

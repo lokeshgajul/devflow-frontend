@@ -13,15 +13,15 @@ import { useNavigate } from "react-router-dom";
 const EditProfile = () => {
   const { user } = useContext(AuthContext);
   const [formData, setFormData] = useState({
-    fullName: "",
-    username: user.username,
-    bio: "",
-    location: "",
-    portfolio: "",
-    github: "",
-    linkedin: "",
-    twitter: "",
-    skills: [],
+    fullName: user.fullName || "",
+    username: user.username || "",
+    bio: user.bio || "",
+    location: user.location || "",
+    portfolio: user.portfolio || "",
+    github: user.socialLinks.github || "",
+    linkedin: user.socialLinks.linkedIn || "",
+    twitter: user.socialLinks.twitter || "",
+    skills: user.skills || [],
     newSkill: "",
   });
   const navigate = useNavigate();
@@ -133,7 +133,7 @@ const EditProfile = () => {
             <input
               type="text"
               name="location"
-              value={formData.location}
+              value={user?.location || formData.location}
               onChange={handleChange}
               placeholder="San Francisco, CA"
               className="w-full px-4 py-2 rounded-lg bg-[#0F172A] border border-gray-700 focus:border-blue-500 focus:outline-none"

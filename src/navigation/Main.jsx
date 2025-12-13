@@ -9,6 +9,7 @@ import { PublicRoute } from "../components/PublicRoute/PublicRoute";
 import LandingPage from "../auth/landingpage/LandingPage";
 import Profile from "../pages/profile/Profile";
 import AskQuestionForm from "../pages/ask_question/AskQuestionForm";
+import AIChatAssistant from "../pages/ai_assistant/AIChatAssistant";
 import Footer from "../auth/landingpage/Footer";
 import Header from "../components/Header/Header";
 import QuestionDetails from "../pages/question-details/QuestionDetails";
@@ -60,6 +61,15 @@ const Main = () => {
                 <ProtectedRoute>
                   <Header />
                   <AskQuestionForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ai-assistant"
+              element={
+                <ProtectedRoute>
+                  <Header />
+                  <AIChatAssistant />
                 </ProtectedRoute>
               }
             />
