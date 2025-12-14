@@ -4,11 +4,9 @@ import { FiMessageCircle } from "react-icons/fi";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { QnAContext } from "../../context/QuestionContext";
 
 const QuestionItem = ({ question }) => {
   const { user } = useContext(AuthContext);
-  const { getAllAnswers, comments } = useContext(QnAContext);
   const navigate = useNavigate();
   const [likes, setLikes] = useState(question?.likes || 0);
   const [isLiked, setIsLiked] = useState(false);
@@ -34,7 +32,7 @@ const QuestionItem = ({ question }) => {
     setIsLiked(newIsLiked);
 
     try {
-      const res = await axios.post("http://localhost:3000/api/likes", {
+      const res = await axios.post("http://localhost:3000/api/question/likes", {
         userId: user._id,
         questionId: question._id,
       });

@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { useContext } from "react";
 import { QnAContext } from "../../context/QuestionContext";
 import { AuthContext } from "../../context/AuthContext";
-import AnswerCard from "../../components/AnswerCard/AnswerCard";
+import AnswerFeed from "../../components/AnswerFeed/AnswerFeed";
 
 export default function QuestionDetails() {
   const { id } = useParams();
@@ -18,8 +18,6 @@ export default function QuestionDetails() {
   const { getQuestionDetailsById, details, getAllAnswers, answers } =
     useContext(QnAContext);
   const { user } = useContext(AuthContext);
-
-  console.log(details?._id);
 
   const postAnswerToQuestion = async () => {
     try {
@@ -167,7 +165,8 @@ export default function QuestionDetails() {
 
       {/* Answers Section */}
       <div>
-        <AnswerCard answers={answers} />
+        <AnswerFeed answers={answers} />
+        {/* <AnswerCard answers={answers} /> */}
       </div>
 
       {/* Similar Questions */}

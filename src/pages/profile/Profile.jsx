@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
+import { BiSolidLike } from "react-icons/bi";
 import { FaMapMarkerAlt, FaLink, FaTwitter, FaCalendar } from "react-icons/fa";
+import { FiMessageCircle } from "react-icons/fi";
 import { SlSocialLinkedin } from "react-icons/sl";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
@@ -13,7 +15,8 @@ const Profile = () => {
   const [checkmode, setCheckmode] = useState("questions");
   const [userData, setUserData] = useState(null);
   const [userQuestion, setUserQuestions] = useState();
-  const [usreAnswers, setUserAnswers] = useState();
+  const [userAnswers, setUserAnswers] = useState();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -98,7 +101,7 @@ const Profile = () => {
                   <p className="text-gray-400 text-sm mt-1">Questions</p>
                 </div>
                 <div>
-                  <p className="text-3xl font-bold">{usreAnswers?.length}</p>
+                  <p className="text-3xl font-bold">{userAnswers?.length}</p>
                   <p className="text-gray-400 text-sm mt-1">Answers</p>
                 </div>
                 <div>
@@ -244,13 +247,24 @@ const Profile = () => {
                 </div>
 
                 <div className="flex items-center gap-5 text-sm text-gray-400">
-                  <span>👍 {que.likes}</span>
-                  <span>💬 {que.comments}</span>
+                  <div className="flex flex-row items-center space-x-1.5">
+                    <span>
+                      <BiSolidLike size={18} />
+                    </span>
+                    <span>{que.likes}</span>
+                  </div>
+                  <div className="flex flex-row items-center space-x-1.5">
+                    <span>
+                      <FiMessageCircle size={18} />
+                    </span>
+                    <span> {que.comments}</span>
+                  </div>
                 </div>
               </div>
             );
           })
-        : usreAnswers?.map((ans, index) => {
+        : userAnswers?.map((ans, index) => {
+            const isLiked = ans?.likedBy?.includes(user?._id);
             return (
               <div
                 key={index}
@@ -273,11 +287,10 @@ const Profile = () => {
                 <p className="text-gray-300 mb-3">{ans.answer}</p>
 
                 {/* Stats */}
-                {/* <div className="flex items-center gap-5 text-sm text-gray-400">
-                  <span>👍 {ans.likes}</span>
-                  <span>💬 {ans.comments}</span>
-                  <span>👀 {ans.views}</span>
-                </div> */}
+                <button className="flex items-center gap-2 text-sm cursor-pointer">
+                  <BiSolidLike color={isLiked ? "#3b82f6" : "gray"} />
+                  {ans.likes}
+                </button>
               </div>
             );
           })}

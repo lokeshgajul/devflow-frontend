@@ -1,38 +1,60 @@
-import React from "react";
-import { FiThumbsUp, FiMessageCircle, FiEye } from "react-icons/fi";
+import React, { useContext, useEffect, useState } from "react";
+import { BiSolidLike } from "react-icons/bi";
+import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
+import { QnAContext } from "../../context/QuestionContext";
 
-const AnswerCard = ({ answers }) => {
+const AnswerwerCard = ({ answer }) => {
+  const { user } = useContext(AuthContext);
+  const { handleLike } = useContext(QnAContext);
+  const [likes, setLikes] = useState(answer.likes || 0);
+  const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    if (answer) {
+      setLikes(answer.likes || 0);
+      setIsLiked(answer?.likedBy?.includes(user._id));
+    }
+  }, [answer, user?._id]);
+
+  const onLike = (e) => {
+    e.stopPropagation();
+
+    setIsLiked((prev) => !prev);
+    setLikes((prev) => (isLiked ? prev - 1 : prev + 1));
+
+    handleLike(answer._id);
+  };
+
   return (
     <div>
-      <h2 className="text-lg font-medium mt-3 mb-3">
-        Comments ({answers?.length})
-      </h2>
-      <div className="space-y-3 mb-8">
-        {answers?.map((ans) => (
-          <div
-            key={ans?._id}
-            className="bg-slate-800/30 p-4 rounded-xl border border-slate-700"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <img src={ans?.userAvatar} className="w-9 h-9 rounded-full" />
-              <span className="text-slate-200 text-sm font-medium">
-                {ans?.username}
-              </span>
-            </div>
-
-            {/* 🔑 FIX APPLIED HERE: whitespace-pre-wrap */}
-            <p className="text-slate-300 text-sm mb-3 whitespace-pre-wrap">
-              {ans?.answer}
-            </p>
-
-            <button className="flex items-center gap-2 text-sm text-slate-400 hover:text-white">
-              <FiThumbsUp /> {ans?.likes}
-            </button>
+      <div className="space-y-3 mb-4">
+        <div
+          key={answer?._id}
+          className="bg-slate-800/30 p-4 rounded-xl border border-slate-700"
+        >
+          <div className="flex items-center gap-3 mb-2">
+            <img src={answer?.userAvatar} className="w-9 h-9 rounded-full" />
+            <span className="text-slate-200 text-sm font-medium">
+              {answer?.username}
+            </span>
           </div>
-        ))}
+
+          <p className="text-slate-300 text-sm mb-3 whitespace-pre-wrap">
+            {answer?.answer}
+          </p>
+
+          <button
+            onClick={onLike}
+            className="flex items-center gap-2 text-sm cursor-pointer"
+          >
+            <BiSolidLike color={isLiked ? "#3b82f6" : "gray"} />
+            {likes}
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default AnswerCard;
+export default AnswerwerCard;

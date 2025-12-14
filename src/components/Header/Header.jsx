@@ -13,7 +13,7 @@ const Header = () => {
   // const { theme, toggleTheme } = useContext(ThemeContext);
   return (
     <div>
-      <header className="  border-b border-gray-600 shadow-sm">
+      <header className="  border-b-[0.5px] border-gray-700 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-5 py-4">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
