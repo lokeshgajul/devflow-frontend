@@ -44,7 +44,7 @@ const Profile = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:3000/api/user/user-details",
+          "https://devflow-backend-six.vercel.app/api/user/user-details",
           { userId: user._id }
         );
 

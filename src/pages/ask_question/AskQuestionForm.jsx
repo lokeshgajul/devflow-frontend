@@ -22,7 +22,7 @@ const AskQuestionForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/question/ask-question",
+        "https://devflow-backend-six.vercel.app/api/question/ask-question",
         {
           userId: user._id,
           username: user.username,

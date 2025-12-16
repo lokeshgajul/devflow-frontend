@@ -18,7 +18,7 @@ export const QnAProvider = ({ children }) => {
   const getQuestionDetailsById = async (id) => {
     try {
       const res = await axios.post(
-        `http://localhost:3000/api/question/${id}`,
+        `https://devflow-backend-six.vercel.app/api/question/${id}`,
         {},
         { withCredentials: true }
       );
@@ -32,7 +32,7 @@ export const QnAProvider = ({ children }) => {
   const getAllQuestions = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/question/all_question",
+        "https://devflow-backend-six.vercel.app/api/question/all_question",
         {
           withCredentials: true,
         }
@@ -48,7 +48,7 @@ export const QnAProvider = ({ children }) => {
   const getAllQuestionsCreatedByUser = async (userId) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/question/user-questions",
+        "https://devflow-backend-six.vercel.app/api/question/user-questions",
         { userId }
       );
 
@@ -62,7 +62,7 @@ export const QnAProvider = ({ children }) => {
   const getAllAnswers = async (questionId) => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/answer/get-answers",
+        "https://devflow-backend-six.vercel.app/api/answer/get-answers",
         {
           questionId,
         }
@@ -78,7 +78,7 @@ export const QnAProvider = ({ children }) => {
   const getAllAnswersCreatedByUser = async (userId) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/answer/user-answers",
+        "https://devflow-backend-six.vercel.app/api/answer/user-answers",
         { userId }
       );
 
@@ -100,10 +100,13 @@ export const QnAProvider = ({ children }) => {
     setIsLiked(newIsLiked);
 
     try {
-      const res = await axios.post("http://localhost:3000/api/question/likes", {
-        userId: user._id,
-        questionId,
-      });
+      const res = await axios.post(
+        "https://devflow-backend-six.vercel.app/api/question/likes",
+        {
+          userId: user._id,
+          questionId,
+        }
+      );
 
       setLikes(res.data.likes);
       setIsLiked(res.data.liked);

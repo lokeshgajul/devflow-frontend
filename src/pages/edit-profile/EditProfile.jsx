@@ -29,7 +29,7 @@ const EditProfile = () => {
   const updateProfile = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/user/update-profile",
+        "https://devflow-backend-six.vercel.app/api/user/update-profile",
         {
           fullName: formData.fullName,
           bio: formData.bio,

@@ -16,9 +16,12 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/auth/verify", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          "https://devflow-backend-six.vercel.app/auth/verify",
+          {
+            withCredentials: true,
+          }
+        );
 
         if (res.data.sucess) {
           setUser(res.data.user);
@@ -38,9 +41,12 @@ export const AuthProvider = ({ children }) => {
 
   const logOut = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/auth/logout", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        "https://devflow-backend-six.vercel.app/auth/logout",
+        {
+          withCredentials: true,
+        }
+      );
       const data = await res.data;
       setIsAuthenticated(false);
       console.log("data ", data);
@@ -51,11 +57,14 @@ export const AuthProvider = ({ children }) => {
 
   const signUp = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/auth/signup", {
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-      });
+      const res = await axios.post(
+        "https://devflow-backend-six.vercel.app/auth/signup",
+        {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        }
+      );
 
       const data = await res.data;
       console.log("Data ", data);
@@ -68,7 +77,7 @@ export const AuthProvider = ({ children }) => {
   const signIn = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/auth/signin",
+        "https://devflow-backend-six.vercel.app/auth/signin",
         {
           email: formData.email,
           password: formData.password,
