@@ -10,8 +10,11 @@ import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { logOut, user } = useContext(AuthContext);
-  const { getAllQuestionsCreatedByUser, getAllAnswersCreatedByUser } =
-    useContext(QnAContext);
+  const {
+    getAllQuestionsCreatedByUser,
+    getAllAnswersCreatedByUser,
+    handleLike,
+  } = useContext(QnAContext);
   const [checkmode, setCheckmode] = useState("questions");
   const [userData, setUserData] = useState(null);
   const [userQuestion, setUserQuestions] = useState();
@@ -20,12 +23,12 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleQuestions = async () => {
-      const questionData = await getAllQuestionsCreatedByUser(user?._id);
-      setUserQuestions(questionData.questions);
-      console.log(questionData);
+    const handleQuestion = async () => {
+      const questionData = await getAllQuestionsCreatedByUser(user._id);
+      setUserQuestions(questionData.questions ?? []);
     };
-    if (user?._id) handleQuestions();
+
+    if (user?._id) handleQuestion();
   }, [user?._id]);
 
   useEffect(() => {
@@ -194,7 +197,7 @@ const Profile = () => {
       <div className="my-5 w-fit space-x-2 rounded-lg  py-2  bg-[#1E293B]">
         <span
           onClick={() => setCheckmode("questions")}
-          className={`px-5  py-2  rounded-lg  ${
+          className={`px-5 cursor-pointer py-2  rounded-lg  ${
             checkmode === "questions"
               ? "bg-blue-500 text-white"
               : "bg-transparent "
@@ -204,7 +207,7 @@ const Profile = () => {
         </span>
         <span
           onClick={() => setCheckmode("answers")}
-          className={`px-5  py-2 rounded-lg ${
+          className={`px-5 cursor-pointer py-2 rounded-lg ${
             checkmode === "answers"
               ? "bg-blue-500 text-white "
               : "bg-transparent  "
@@ -215,6 +218,7 @@ const Profile = () => {
       </div>
       {checkmode === "questions"
         ? userQuestion?.map((que, index) => {
+            const isLiked = que?.likedBy?.includes(user?._id);
             return (
               <div
                 key={index}
@@ -247,12 +251,41 @@ const Profile = () => {
                 </div>
 
                 <div className="flex items-center gap-5 text-sm text-gray-400">
-                  <div className="flex flex-row items-center space-x-1.5">
-                    <span>
-                      <BiSolidLike size={18} />
-                    </span>
-                    <span>{que.likes}</span>
-                  </div>
+                  {userQuestion?.map((queItem) => {
+                    const isLiked = queItem?.likedBy?.includes(user?._id);
+
+                    return (
+                      <div
+                        key={queItem._id}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          // ✅ OPTIMISTIC UPDATE
+                          setUserQuestions((prev) =>
+                            prev.map((q) =>
+                              q._id === queItem._id
+                                ? {
+                                    ...q,
+                                    likes: isLiked ? q.likes - 1 : q.likes + 1,
+                                    likedBy: isLiked
+                                      ? q.likedBy.filter(
+                                          (id) => id !== user._id
+                                        )
+                                      : [...q.likedBy, user._id],
+                                  }
+                                : q
+                            )
+                          );
+
+                          handleLike(queItem._id);
+                        }}
+                        className="flex flex-row items-center space-x-1.5 cursor-pointer"
+                      >
+                        <BiSolidLike color={isLiked ? "#3b82f6" : "gray"} />
+                        <span>{queItem.likes}</span>
+                      </div>
+                    );
+                  })}
+
                   <div className="flex flex-row items-center space-x-1.5">
                     <span>
                       <FiMessageCircle size={18} />
@@ -264,7 +297,7 @@ const Profile = () => {
             );
           })
         : userAnswers?.map((ans, index) => {
-            const isLiked = ans?.likedBy?.includes(user?._id);
+            // const isLiked = ans?.likedBy?.includes(user?._id);
             return (
               <div
                 key={index}
@@ -285,12 +318,6 @@ const Profile = () => {
 
                 {/* Description */}
                 <p className="text-gray-300 mb-3">{ans.answer}</p>
-
-                {/* Stats */}
-                <button className="flex items-center gap-2 text-sm cursor-pointer">
-                  <BiSolidLike color={isLiked ? "#3b82f6" : "gray"} />
-                  {ans.likes}
-                </button>
               </div>
             );
           })}

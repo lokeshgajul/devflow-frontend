@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FiThumbsUp, FiMessageCircle, FiEye } from "react-icons/fi";
+import { BiSolidLike, BiLike } from "react-icons/bi";
+import { FiMessageCircle, FiEye } from "react-icons/fi";
 import { AiOutlineRobot } from "react-icons/ai";
 import { FaRegCopy } from "react-icons/fa6";
 import { IoMdSend } from "react-icons/io";
@@ -13,11 +14,27 @@ import AnswerFeed from "../../components/AnswerFeed/AnswerFeed";
 export default function QuestionDetails() {
   const { id } = useParams();
   const decodedId = atob(id);
+  const {
+    getQuestionDetailsById,
+    details,
+    getAllAnswers,
+    answers,
+    setLikes,
+    likes,
+    isLiked,
+    setIsLiked,
+    handleLike,
+  } = useContext(QnAContext);
+  const { user } = useContext(AuthContext);
   const [postAnswer, setPostAnswer] = useState("");
 
-  const { getQuestionDetailsById, details, getAllAnswers, answers } =
-    useContext(QnAContext);
-  const { user } = useContext(AuthContext);
+  useEffect(() => {
+    if (details) {
+      setLikes(details.likes || 0);
+      const userHasLiked = user?._id && details.likedBy?.includes(user._id);
+      setIsLiked(userHasLiked);
+    }
+  }, [details, user?._id]);
 
   const postAnswerToQuestion = async () => {
     try {
@@ -105,8 +122,12 @@ export default function QuestionDetails() {
         </pre>
 
         <div className="flex items-center gap-6 text-sm text-slate-200">
-          <span className="flex items-center gap-1">
-            <FiThumbsUp size={18} /> {details?.likes}
+          <span
+            onClick={() => handleLike(details?._id)}
+            className="flex items-center gap-1"
+          >
+            <BiSolidLike size={18} color={isLiked ? "#3b82f6" : "gray"} />
+            {likes}
           </span>
           <span className="flex items-center gap-1">
             <FiMessageCircle size={18} /> {details?.comments}

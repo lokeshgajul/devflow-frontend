@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import axios from "axios";
 import { createContext, useState } from "react";
 import { AuthContext } from "./AuthContext";
+import { useContext } from "react";
 
 export const QnAContext = createContext();
 
@@ -10,6 +11,8 @@ export const QnAProvider = ({ children }) => {
   const [comments, setComments] = useState();
   const [details, setDetails] = useState();
   const [answers, setAnswers] = useState();
+  const [likes, setLikes] = useState();
+  const [isLiked, setIsLiked] = useState(false);
   const { user } = useContext(AuthContext);
 
   const getQuestionDetailsById = async (id) => {
@@ -86,30 +89,42 @@ export const QnAProvider = ({ children }) => {
     }
   };
 
-  const handleLike = async (answerId) => {
-    try {
-      const res = await axios.post(
-        "http://localhost:3000/api/answer/like-answer",
-        {
-          userId: user?._id,
-          answerId,
-        }
-      );
+  const handleLike = async (questionId) => {
+    const prevLikes = likes; //like count
+    const prevIsLiked = isLiked; // checks that is liked or not
 
-      const data = await res.data;
-      return data;
+    const newIsLiked = !isLiked;
+    const newLikes = newIsLiked ? likes + 1 : likes - 1;
+
+    setLikes(newLikes);
+    setIsLiked(newIsLiked);
+
+    try {
+      const res = await axios.post("http://localhost:3000/api/question/likes", {
+        userId: user._id,
+        questionId,
+      });
+
+      setLikes(res.data.likes);
+      setIsLiked(res.data.liked);
     } catch (error) {
-      console.log(error);
+      console.error("Failed to like:", error);
+      setLikes(prevLikes);
+      setIsLiked(prevIsLiked);
     }
   };
 
   const value = {
     questionData,
-    getAllQuestions,
     details,
     answers,
     comments,
+    likes,
+    setLikes,
+    isLiked,
+    setIsLiked,
     handleLike,
+    getAllQuestions,
     getQuestionDetailsById,
     getAllAnswers,
     getAllQuestionsCreatedByUser,
