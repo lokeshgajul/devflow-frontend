@@ -1,9 +1,13 @@
 import React from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from "react-router-dom";
 import Home from "../pages/home/Home";
 import Signup from "../auth/signup/Signup";
 import Signin from "../auth/signin/Signin";
-import { AuthContext } from "../context/AuthContext";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import { PublicRoute } from "../components/PublicRoute/PublicRoute";
 import LandingPage from "../auth/landingpage/LandingPage";
@@ -16,14 +20,17 @@ import QuestionDetails from "../pages/question-details/QuestionDetails";
 import EditProfile from "../pages/edit-profile/EditProfile";
 
 const Main = () => {
+  console.log("CURRENT PATH:", window.location.pathname);
+
   return (
     <Router>
       <div className="min-h-screen flex flex-col ">
         {/* Page Content */}
         <main className="flex-1">
           <Routes>
+            <Route path="/home" element={<Navigate to="/" replace />} />
             <Route
-              path="/"
+              path="/welcome"
               element={
                 <PublicRoute>
                   <LandingPage />
@@ -47,7 +54,7 @@ const Main = () => {
               }
             />
             <Route
-              path="/home"
+              path="/"
               element={
                 <ProtectedRoute>
                   <Header />

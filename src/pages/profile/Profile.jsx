@@ -17,34 +17,23 @@ const Profile = () => {
   } = useContext(QnAContext);
   const [checkmode, setCheckmode] = useState("questions");
   const [userData, setUserData] = useState(null);
-  const [userQuestion, setUserQuestions] = useState();
   const [userAnswers, setUserAnswers] = useState();
-
+  const [userQuestions, setUserQuestions] = useState([]);
+  const [loading, setLoading] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const handleQuestion = async () => {
-      const questionData = await getAllQuestionsCreatedByUser(user._id);
-      setUserQuestions(questionData.questions ?? []);
-    };
-
-    if (user?._id) handleQuestion();
-  }, [user?._id]);
-
-  useEffect(() => {
-    const handleAnswers = async () => {
-      const answerData = await getAllAnswersCreatedByUser(user?._id);
-      setUserAnswers(answerData.answers);
-      console.log(answerData);
-    };
-    if (user?._id) handleAnswers();
-  }, [user?._id]);
+  const handleLogout = async () => {
+    const res = await logOut();
+    if (res) {
+      navigate("/welcome", { replace: true });
+    }
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.post(
-          "https://devflow-backend-six.vercel.app/api/user/user-details",
+          "https://devflow-backend-six.vercel.app:3000/api/user/user-details",
           { userId: user._id }
         );
 
@@ -57,6 +46,59 @@ const Profile = () => {
 
     if (user?._id) fetchUser();
   }, [user?._id]);
+
+  useEffect(() => {
+    const handleQuestion = async () => {
+      try {
+        const data = await getAllQuestionsCreatedByUser(user._id);
+        setUserQuestions(data.questions ?? []);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user?._id) handleQuestion();
+  }, [user?._id, getAllQuestionsCreatedByUser]);
+
+  const onLikeToggle = async (question) => {
+    const userId = user?._id;
+    const isCurrentlyLiked = question.likedBy?.includes(userId); // checks that user has liked the current question
+
+    setUserQuestions((prev) =>
+      prev.map((q) => {
+        if (q._id == question._id) {
+          return {
+            ...q,
+            likes: isCurrentlyLiked ? q.likes - 1 : q.likes + 1,
+            likedBy: isCurrentlyLiked
+              ? q.likedBy.filter((id) => id !== userId)
+              : [...(q.likedBy || []), userId],
+          };
+        }
+        return q;
+      })
+    );
+    try {
+      await handleLike(user?._id, question._id);
+    } catch (error) {
+      console.error("Like failed, rolling back:", error);
+      // ROLLBACK: If API fails, reset the state to original
+      setUserQuestions((prev) =>
+        prev.map((q) => (q._id === question._id ? question : q))
+      );
+    }
+  };
+  useEffect(() => {
+    const handleAnswers = async () => {
+      const answerData = await getAllAnswersCreatedByUser(user?._id);
+      setUserAnswers(answerData.answers);
+      console.log(answerData);
+    };
+    if (user?._id) handleAnswers();
+  }, [user?._id]);
+  if (loading) return <div>Loading questions...</div>;
 
   return (
     <div className="max-w-7xl mx-auto min-h-screen bg-[#0F172A] text-white p-6">
@@ -79,7 +121,7 @@ const Profile = () => {
                   Edit Profile
                 </button>
                 <button
-                  onClick={() => logOut()}
+                  onClick={() => handleLogout()}
                   className="px-2 py-2 mt-4 md:mt-8 bg-blue-500 max-w-fit hover:bg-blue-600 rounded-md text-sm font-medium"
                 >
                   LogOut
@@ -100,7 +142,7 @@ const Profile = () => {
                   <p className="text-gray-400 text-sm mt-1">Reputation</p>
                 </div>
                 <div>
-                  <p className="text-3xl font-bold">{userQuestion?.length}</p>
+                  <p className="text-3xl font-bold">{userQuestions?.length}</p>
                   <p className="text-gray-400 text-sm mt-1">Questions</p>
                 </div>
                 <div>
@@ -217,7 +259,7 @@ const Profile = () => {
         </span>
       </div>
       {checkmode === "questions"
-        ? userQuestion?.map((que, index) => {
+        ? userQuestions?.map((que, index) => {
             const isLiked = que?.likedBy?.includes(user?._id);
             return (
               <div
@@ -250,48 +292,30 @@ const Profile = () => {
                   ))}
                 </div>
 
-                <div className="flex items-center gap-5 text-sm text-gray-400">
-                  {userQuestion?.map((queItem) => {
-                    const isLiked = queItem?.likedBy?.includes(user?._id);
-
-                    return (
-                      <div
-                        key={queItem._id}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          // ✅ OPTIMISTIC UPDATE
-                          setUserQuestions((prev) =>
-                            prev.map((q) =>
-                              q._id === queItem._id
-                                ? {
-                                    ...q,
-                                    likes: isLiked ? q.likes - 1 : q.likes + 1,
-                                    likedBy: isLiked
-                                      ? q.likedBy.filter(
-                                          (id) => id !== user._id
-                                        )
-                                      : [...q.likedBy, user._id],
-                                  }
-                                : q
-                            )
-                          );
-
-                          handleLike(queItem._id);
-                        }}
-                        className="flex flex-row items-center space-x-1.5 cursor-pointer"
-                      >
-                        <BiSolidLike color={isLiked ? "#3b82f6" : "gray"} />
-                        <span>{queItem.likes}</span>
-                      </div>
-                    );
-                  })}
-
-                  <div className="flex flex-row items-center space-x-1.5">
-                    <span>
-                      <FiMessageCircle size={18} />
+                <div className="flex flex-row items-center space-x-1.5">
+                  <div
+                    onClick={() => onLikeToggle(que)}
+                    className="flex items-center gap-1.5 cursor-pointer group"
+                  >
+                    <BiSolidLike
+                      size={20}
+                      className={`transition-colors ${
+                        isLiked
+                          ? "text-blue-500"
+                          : "text-gray-400 group-hover:text-gray-600"
+                      }`}
+                    />
+                    <span
+                      className={isLiked ? "text-blue-500" : "text-gray-500"}
+                    >
+                      {que.likes || 0}
                     </span>
-                    <span> {que.comments}</span>
                   </div>
+
+                  <span>
+                    <FiMessageCircle color="gray" size={18} />
+                  </span>
+                  <span className="text-gray-400"> {que.comments}</span>
                 </div>
               </div>
             );

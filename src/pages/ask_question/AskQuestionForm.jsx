@@ -37,7 +37,7 @@ const AskQuestionForm = () => {
       );
       const data = await response.data;
       console.log("Question data ", data);
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       console.log("Error ", error);
     }
@@ -219,7 +219,7 @@ const AskQuestionForm = () => {
               Post Your Question
             </button>
             <button
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/")}
               className="px-5 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-gray-800 transition"
             >
               Cancel

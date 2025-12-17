@@ -13,7 +13,6 @@ export const QnAProvider = ({ children }) => {
   const [answers, setAnswers] = useState();
   const [likes, setLikes] = useState();
   const [isLiked, setIsLiked] = useState(false);
-  const { user } = useContext(AuthContext);
 
   const getQuestionDetailsById = async (id) => {
     try {
@@ -89,31 +88,20 @@ export const QnAProvider = ({ children }) => {
     }
   };
 
-  const handleLike = async (questionId) => {
-    const prevLikes = likes; //like count
-    const prevIsLiked = isLiked; // checks that is liked or not
-
-    const newIsLiked = !isLiked;
-    const newLikes = newIsLiked ? likes + 1 : likes - 1;
-
-    setLikes(newLikes);
-    setIsLiked(newIsLiked);
-
+  const handleLike = async (userId, questionId) => {
     try {
       const res = await axios.post(
         "https://devflow-backend-six.vercel.app/api/question/likes",
         {
-          userId: user._id,
+          userId,
           questionId,
         }
       );
-
-      setLikes(res.data.likes);
-      setIsLiked(res.data.liked);
+      // Return the data so the individual component can update itself
+      return { likes: res.data.likes, liked: res.data.liked };
     } catch (error) {
       console.error("Failed to like:", error);
-      setLikes(prevLikes);
-      setIsLiked(prevIsLiked);
+      throw error; // Let the component handle the rollback
     }
   };
 

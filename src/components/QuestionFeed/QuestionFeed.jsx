@@ -1,15 +1,13 @@
 import React from "react";
-import QuestionItem from "../QuestionCard/QuestionCard";
+import QuestionCard from "../QuestionCard/QuestionCard";
+import { AuthContext } from "../../context/AuthContext";
 
 const QuestionFeed = ({ questionData }) => {
   return (
     <div className="space-y-4">
-      {questionData?.map((q) => (
-        <QuestionItem // Use the new child component
-          key={q._id} // ALWAYS use a unique key, like the ID
-          question={q} // Pass the single question object
-        />
-      ))}
+      {questionData?.map((q) => {
+        return <QuestionCard key={q._id} question={q} />;
+      })}
     </div>
   );
 };

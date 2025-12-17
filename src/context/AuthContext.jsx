@@ -4,8 +4,9 @@ import axios from "axios";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     fullName: "",
     username: "",
@@ -13,29 +14,31 @@ export const AuthProvider = ({ children }) => {
     password: "",
   });
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axios.get(
-          "https://devflow-backend-six.vercel.app/auth/verify",
-          {
-            withCredentials: true,
-          }
-        );
-
-        if (res.data.sucess) {
-          setUser(res.data.user);
-          setIsAuthenticated(true);
-        } else {
-          setUser(null);
-          setIsAuthenticated(false);
+  const fetchUser = async () => {
+    try {
+      const res = await axios.get(
+        "https://devflow-backend-six.vercel.app/auth/verify",
+        {
+          withCredentials: true,
         }
-      } catch {
+      );
+
+      if (res.data.sucess) {
+        setUser(res.data.user);
+        setIsAuthenticated(true);
+      } else {
         setUser(null);
         setIsAuthenticated(false);
       }
-    };
+    } catch {
+      setUser(null);
+      setIsAuthenticated(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchUser();
   }, []);
 
@@ -49,7 +52,9 @@ export const AuthProvider = ({ children }) => {
       );
       const data = await res.data;
       setIsAuthenticated(false);
+      setUser(null);
       console.log("data ", data);
+      return data.status;
     } catch (error) {
       console.log(error);
     }
@@ -74,6 +79,7 @@ export const AuthProvider = ({ children }) => {
       console.log(error);
     }
   };
+
   const signIn = async () => {
     try {
       const res = await axios.post(
@@ -102,11 +108,13 @@ export const AuthProvider = ({ children }) => {
     user,
     setUser,
     logOut,
+    fetchUser,
     isAuthenticated,
     signUp,
     handleChange,
     formData,
     signIn,
+    loading,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

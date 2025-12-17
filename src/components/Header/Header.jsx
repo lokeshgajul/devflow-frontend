@@ -28,7 +28,7 @@ const Header = () => {
                 className={`flex flex-row gap-4 max-md:hidden text-gray-300 font-normal `}
               >
                 <li className="cursor-pointer">
-                  <Link to="/home"> Home </Link>
+                  <Link to="/"> Home </Link>
                 </li>
                 <li className="cursor-pointer">
                   <Link to="/categories"> Categories </Link>
@@ -42,17 +42,6 @@ const Header = () => {
               </ul>
             </div>
             <div className=" flex flex-row justify-center items-center gap-4">
-              {/* <div className="">
-                {theme === "dark" ? (
-                  <span onClick={() => toggleTheme("dark")}>
-                    <CiLight size={25} color="#694cfa" />
-                  </span>
-                ) : (
-                  <span onClick={() => toggleTheme("light")}>
-                    <MdDarkMode size={25} />
-                  </span>
-                )}
-              </div> */}
               <button
                 onClick={() => navigate("/ask-question")}
                 className="hidden text-sm cursor-pointer sm:flex items-center gap-2 px-3 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"

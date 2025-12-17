@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { BiSolidLike } from "react-icons/bi";
 import { FiMessageCircle } from "react-icons/fi";
-import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { QnAContext } from "../../context/QuestionContext";
@@ -9,8 +8,9 @@ import { QnAContext } from "../../context/QuestionContext";
 const QuestionItem = ({ question }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { setLikes, setIsLiked, likes, isLiked, handleLike } =
-    useContext(QnAContext);
+  const [likes, setLikes] = useState(question.likes || 0);
+  const [isLiked, setIsLiked] = useState(question.likedBy?.includes(user?._id));
+  const { handleLike } = useContext(QnAContext);
 
   useEffect(() => {
     if (question) {
@@ -20,31 +20,24 @@ const QuestionItem = ({ question }) => {
     }
   }, [question, user?._id]);
 
-  // const handleLike = async () => {
-  //   if (!user?._id) return alert("Please log in to like questions.");
+  const onLikeClick = async () => {
+    const prevLikes = likes;
+    const prevIsLiked = isLiked;
 
-  //   const prevLikes = likes; //like count
-  //   const prevIsLiked = isLiked; // checks that is liked or not
+    setLikes(prevIsLiked ? likes - 1 : likes + 1);
+    setIsLiked(!prevIsLiked);
 
-  //   const newIsLiked = !isLiked;
-  //   const newLikes = newIsLiked ? likes + 1 : likes - 1;
+    try {
+      const updatedData = await handleLike(user._id, question._id);
 
-  //   setLikes(newLikes);
-  //   setIsLiked(newIsLiked);
-
-  //   try {
-  //     const res = await axios.post("http://localhost:3000/api/question/likes", {
-  //       userId: user._id,
-  //       questionId: question._id,
-  //     });
-
-  //     setLikes(res.data.likes);
-  //   } catch (error) {
-  //     console.error("Failed to like:", error);
-  //     setLikes(prevLikes);
-  //     setIsLiked(prevIsLiked);
-  //   }
-  // };
+      setLikes(updatedData.likes);
+      setIsLiked(updatedData.liked);
+    } catch (error) {
+      console.log(error);
+      setLikes(prevLikes);
+      setIsLiked(prevIsLiked);
+    }
+  };
 
   return (
     <article className="bg-gray-800/85 py-8 px-4 rounded-2xl cursor-pointer border border-slate-700 shadow-md hover:scale-[1.003] transition-transform">
@@ -88,23 +81,15 @@ const QuestionItem = ({ question }) => {
           <div className="flex items-center justify-between mt-3">
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 text-sm text-slate-300">
-                <span
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleLike(question?._id);
-                  }}
-                  className="flex items-center cursor-pointer hover:bg-slate-800 rounded-full p-1 transition"
+                <div
+                  onClick={onLikeClick}
+                  className="cursor-pointer flex items-center"
                 >
-                  <span className={`p-1 rounded-full transition`}>
-                    <BiSolidLike
-                      size={19}
-                      color={isLiked ? "#3b82f6" : "gray"}
-                    />
-                  </span>
+                  <BiSolidLike size={18} color={isLiked ? "#3b82f6" : "gray"} />
                   <span className={`ml-1 ${isLiked ? "text-blue-500" : ""}`}>
                     {likes}
                   </span>
-                </span>
+                </div>
 
                 <span className="flex items-center gap-1">
                   <FiMessageCircle size={18} />{" "}

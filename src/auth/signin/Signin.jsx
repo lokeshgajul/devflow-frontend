@@ -7,13 +7,16 @@ import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 
 const Signin = () => {
-  const { handleChange, formData, signIn } = useContext(AuthContext);
+  const { handleChange, formData, signIn, fetchUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const handleSignIn = async (e) => {
     e.preventDefault();
     const response = await signIn();
-    if (response) navigate("/home");
+    if (response) {
+      await fetchUser();
+      navigate("/");
+    }
   };
 
   return (
