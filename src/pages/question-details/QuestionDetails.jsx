@@ -39,7 +39,7 @@ export default function QuestionDetails() {
   const postAnswerToQuestion = async () => {
     try {
       const response = await axios.post(
-        "https://devflow-backend-six.vercel.app:3000/api/answer/post-answer",
+        "https://devflow-backend-six.vercel.app/api/answer/post-answer",
         {
           userId: user._id,
           username: user.username,

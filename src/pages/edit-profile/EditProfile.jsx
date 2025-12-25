@@ -29,7 +29,7 @@ const EditProfile = () => {
   const updateProfile = async () => {
     try {
       const res = await axios.post(
-        "https://devflow-backend-six.vercel.app:3000/api/user/update-profile",
+        "https://devflow-backend-six.vercel.app/api/user/update-profile",
         {
           fullName: formData.fullName,
           bio: formData.bio,
@@ -252,7 +252,7 @@ const EditProfile = () => {
         <div className="mt-10 flex justify-end">
           <button
             onClick={() => updateProfile()}
-            className="bg-green-600 hover:bg-green-700 px-8 py-2 rounded-lg font-semibold"
+            className="bg-green-600 hover:bg-green-700 px-8 py-2 rounded-lg font-semibold cursor-pointer"
           >
             Save Changes
           </button>

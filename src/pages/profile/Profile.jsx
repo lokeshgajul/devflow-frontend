@@ -7,6 +7,7 @@ import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { QnAContext } from "../../context/QuestionContext";
 import { useNavigate } from "react-router-dom";
+import ProfileSkeleton from "../../components/skeleton/ProfileSkeleton";
 
 const Profile = () => {
   const { logOut, user } = useContext(AuthContext);
@@ -19,7 +20,7 @@ const Profile = () => {
   const [userData, setUserData] = useState(null);
   const [userAnswers, setUserAnswers] = useState();
   const [userQuestions, setUserQuestions] = useState([]);
-  const [loading, setLoading] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -29,22 +30,28 @@ const Profile = () => {
     }
   };
 
+  const fetchUser = async () => {
+    if (!user._id) {
+      console.log("User id is not present ");
+    }
+    try {
+      const response = await axios.post(
+        "https://devflow-backend-six.vercel.app/api/user/user-details",
+        {},
+        { withCredentials: true }
+      );
+
+      setUserData(response.data.userDetails);
+      console.log(response.data);
+    } catch (error) {
+      console.log("Error", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.post(
-          "https://devflow-backend-six.vercel.app:3000/api/user/user-details",
-          { userId: user._id }
-        );
-
-        setUserData(response.data.userDetails);
-        console.log(response.data);
-      } catch (error) {
-        console.log("Error", error);
-      }
-    };
-
-    if (user?._id) fetchUser();
+    fetchUser();
   }, [user?._id]);
 
   useEffect(() => {
@@ -54,8 +61,6 @@ const Profile = () => {
         setUserQuestions(data.questions ?? []);
       } catch (error) {
         console.error(error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -98,7 +103,12 @@ const Profile = () => {
     };
     if (user?._id) handleAnswers();
   }, [user?._id]);
-  if (loading) return <div>Loading questions...</div>;
+  if (loading)
+    return (
+      <div>
+        <ProfileSkeleton />{" "}
+      </div>
+    );
 
   return (
     <div className="max-w-7xl mx-auto min-h-screen bg-[#0F172A] text-white p-6">
