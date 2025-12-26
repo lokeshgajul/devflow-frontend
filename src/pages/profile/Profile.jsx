@@ -110,6 +110,10 @@ const Profile = () => {
       </div>
     );
 
+  const profileImageToShow =
+    userData?.profileImage ||
+    "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png";
+
   return (
     <div className="max-w-7xl mx-auto min-h-screen bg-[#0F172A] text-white p-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -118,7 +122,7 @@ const Profile = () => {
             <div className="md:col-span-1 md:p-5 flex md:justify-center md:items-center flex-col">
               <div className="w-28 h-28">
                 <img
-                  src="https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png"
+                  src={profileImageToShow}
                   alt="Profile"
                   className="w-full h-full rounded-full bg-gray-700"
                 />

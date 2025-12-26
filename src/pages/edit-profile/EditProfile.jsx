@@ -14,6 +14,7 @@ const EditProfile = () => {
   const { user } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     fullName: user.fullName || "",
+    profileImage: user.profileImage || "",
     username: user.username || "",
     bio: user.bio || "",
     location: user.location || "",
@@ -24,7 +25,39 @@ const EditProfile = () => {
     skills: user.skills || [],
     newSkill: "",
   });
+  const [preview, setPreview] = useState(null);
   const navigate = useNavigate();
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    setPreview(URL.createObjectURL(file));
+    const formData = new FormData();
+    formData.append("profileImage", file);
+
+    try {
+      const res = await axios.post(
+        "https://devflow-backend-six.vercel.app/api/user/upload-image",
+        formData,
+        { withCredentials: true }
+      );
+
+      const data = await res.data;
+
+      if (data.success) {
+        setPreview(data.profileImage);
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+    }
+  };
+
+  const profileImageToShow =
+    preview ||
+    formData?.profileImage ||
+    "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png";
 
   const updateProfile = async () => {
     try {
@@ -87,13 +120,19 @@ const EditProfile = () => {
         <div className="flex flex-col items-center mb-10">
           <div className="relative group">
             <img
-              src="https://i.pravatar.cc/150?img=5"
+              src={profileImageToShow}
               alt="Profile"
               className="w-28 h-28 rounded-full object-cover border-4 border-[#334155]"
             />
             <label className="absolute bottom-0 right-0 bg-blue-600 p-2 rounded-full cursor-pointer hover:bg-blue-700 transition">
               <FiCamera size={16} />
-              <input type="file" className="hidden" />
+              <input
+                type="file"
+                id="profileImageUpload"
+                className="hidden"
+                accept="image/*"
+                onChange={handleImageUpload}
+              />
             </label>
           </div>
           <p className="text-gray-400 text-sm mt-2">Click the icon to upload</p>

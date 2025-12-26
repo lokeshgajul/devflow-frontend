@@ -59,7 +59,8 @@ const Header = () => {
                   src={
                     user?.avatar
                       ? user.avatar
-                      : "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png"
+                      : user?.profileImage ||
+                        "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png"
                   }
                   alt="profile logo"
                   referrerPolicy="no-referrer"
