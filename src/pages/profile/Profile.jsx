@@ -8,6 +8,7 @@ import axios from "axios";
 import { QnAContext } from "../../context/QuestionContext";
 import { useNavigate } from "react-router-dom";
 import ProfileSkeleton from "../../components/skeleton/ProfileSkeleton";
+import TopSkills from "../../components/TopSkills";
 
 const Profile = () => {
   const { logOut, user } = useContext(AuthContext);
@@ -233,21 +234,8 @@ const Profile = () => {
       </div>
 
       {/* Top Tags — FULL WIDTH BLOCK BELOW */}
-      <div className="mt-6 bg-[#1E293B] p-6 rounded-xl shadow-lg">
-        <h2 className="text-xl font-semibold">Top Tags</h2>
-
-        <div className="flex flex-wrap gap-3 mt-4">
-          {["React", "JavaScript", "Node.js", "TypeScript", "MongoDB"].map(
-            (tag) => (
-              <span
-                key={tag}
-                className="px-4 py-2 cursor-pointer bg-[#0F172A] rounded-lg text-sm text-gray-300 hover:bg-[#152238]"
-              >
-                {tag}
-              </span>
-            )
-          )}
-        </div>
+      <div className="mt-6 bg-[#1E293B] px-6 py-4 rounded-xl shadow-lg">
+        <TopSkills userData={userData} />
       </div>
 
       <div className="my-5 w-fit space-x-2 rounded-lg  py-2  bg-[#1E293B]">

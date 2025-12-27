@@ -39,11 +39,16 @@ const QuestionItem = ({ question }) => {
     }
   };
 
+  const defaultAvatar =
+    "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png";
+
+  const avatar = user?.avatar || user?.profileImage || defaultAvatar;
+
   return (
     <article className="bg-gray-800/85 py-8 px-4 rounded-2xl cursor-pointer border border-slate-700 shadow-md hover:scale-[1.003] transition-transform">
       <div className="flex items-start gap-4">
         <img
-          src={question.avatar}
+          src={avatar}
           alt={question.username}
           referrerPolicy="no-referrer"
           className="w-9 h-9 rounded-full"

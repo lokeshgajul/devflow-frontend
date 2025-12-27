@@ -20,15 +20,18 @@ const AskQuestionForm = () => {
       return;
     }
 
+    const defaultAvatar =
+      "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png";
+
+    const avatar = user?.avatar || user?.profileImage || defaultAvatar;
+
     try {
       const response = await axios.post(
         "https://devflow-backend-six.vercel.app/api/question/ask-question",
         {
           userId: user._id,
           username: user.username,
-          avatar:
-            user.avatar ||
-            "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png",
+          avatar,
           title,
           description,
           codeSnippet,

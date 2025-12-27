@@ -13,6 +13,7 @@ export const QnAProvider = ({ children }) => {
   const [answers, setAnswers] = useState();
   const [likes, setLikes] = useState();
   const [isLiked, setIsLiked] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const getQuestionDetailsById = async (id) => {
     try {
@@ -41,6 +42,8 @@ export const QnAProvider = ({ children }) => {
       setQuestionData(data.allQuestions);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -111,8 +114,9 @@ export const QnAProvider = ({ children }) => {
     answers,
     comments,
     likes,
-    setLikes,
     isLiked,
+    loading,
+    setLikes,
     setIsLiked,
     handleLike,
     getAllQuestions,

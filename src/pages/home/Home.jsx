@@ -5,6 +5,7 @@ import TopContributors from "../../components/TopContributos/TopContributors";
 import { useNavigate } from "react-router-dom";
 import { QnAContext } from "../../context/QuestionContext";
 import QuestionFeed from "../../components/QuestionFeed/QuestionFeed";
+import QuestionCardSkeleton from "../../components/skeleton/QuestionCardSkeleton";
 
 export default function Home() {
   const trending = ["react", "tailwind", "mongodb", "javascript", "ai"];

@@ -11,6 +11,10 @@ const Header = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   // const { theme, toggleTheme } = useContext(ThemeContext);
+
+  const defaultAvatar =
+    "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png";
+
   return (
     <div>
       <header className="  border-b-[0.5px] border-gray-700 shadow-sm">
@@ -56,12 +60,7 @@ const Header = () => {
               >
                 <img
                   className="w-full h-full object-cover rounded-full"
-                  src={
-                    user?.avatar
-                      ? user.avatar
-                      : user?.profileImage ||
-                        "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png"
-                  }
+                  src={user?.avatar || user?.profileImage || defaultAvatar}
                   alt="profile logo"
                   referrerPolicy="no-referrer"
                 />
