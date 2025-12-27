@@ -1,8 +1,6 @@
 import React from "react";
 import axios from "axios";
 import { createContext, useState } from "react";
-import { AuthContext } from "./AuthContext";
-import { useContext } from "react";
 
 export const QnAContext = createContext();
 
@@ -100,11 +98,10 @@ export const QnAProvider = ({ children }) => {
           questionId,
         }
       );
-      // Return the data so the individual component can update itself
       return { likes: res.data.likes, liked: res.data.liked };
     } catch (error) {
       console.error("Failed to like:", error);
-      throw error; // Let the component handle the rollback
+      throw error;
     }
   };
 

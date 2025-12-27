@@ -6,9 +6,7 @@ const ProfileSkeleton = () => {
   return (
     <SkeletonTheme baseColor="#1d263c" highlightColor="#2d3748">
       <div className="w-full max-w-7xl mx-auto p-6 space-y-8">
-        {/* Main Profile Card */}
         <div className="bg-[#151d31] rounded-2xl p-8 flex flex-col md:flex-row gap-8 items-start">
-          {/* Left Side: Avatar and Buttons */}
           <div className="flex flex-col items-center gap-4">
             <Skeleton circle width={150} height={150} />
             <div className="flex gap-2">
@@ -17,14 +15,12 @@ const ProfileSkeleton = () => {
             </div>
           </div>
 
-          {/* Right Side: Info and Badges */}
           <div className="flex-1 w-full space-y-6">
             <div>
               <Skeleton width={200} height={32} />
               <Skeleton width={150} height={20} className="mt-2" />
             </div>
 
-            {/* Reputation/Stats Row */}
             <div className="flex gap-8 border-b border-gray-700 pb-4">
               {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="flex flex-col items-center">
@@ -34,14 +30,12 @@ const ProfileSkeleton = () => {
               ))}
             </div>
 
-            {/* Bio/Links Grid */}
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               {[1, 2, 3, 4, 5].map((i) => (
                 <Skeleton key={i} width={100} height={18} />
               ))}
             </div>
 
-            {/* Badge Pills */}
             <div className="flex gap-3">
               <Skeleton width={120} height={45} borderRadius={10} />
               <Skeleton width={120} height={45} borderRadius={10} />

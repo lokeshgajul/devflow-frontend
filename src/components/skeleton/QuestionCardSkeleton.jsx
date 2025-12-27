@@ -12,8 +12,7 @@ const QuestionCardSkeleton = () => {
             baseColor="#1d263c"
             highlightColor="#2d3748"
           >
-            <div className=" rounded-xl p-5 flex gap-4 w-full">
-              {/* Avatar */}
+            <div className=" rounded-xl p-5 flex gap-4 w-full border-[0.5px] border-gray-800 my-6">
               <Skeleton
                 circle
                 width={42}
@@ -21,15 +20,11 @@ const QuestionCardSkeleton = () => {
                 className="bg-[#151d31]"
               />
 
-              {/* Content */}
               <div className="flex-1 space-y-3">
-                {/* Title */}
                 <Skeleton width="40%" height={18} />
 
-                {/* Description */}
                 <Skeleton width="60%" height={14} className="mt-4" />
 
-                {/* Tag */}
                 <Skeleton
                   width={70}
                   height={22}
@@ -39,13 +34,11 @@ const QuestionCardSkeleton = () => {
 
                 {/* Footer */}
                 <div className="flex justify-between items-center mt-3">
-                  {/* Likes & comments */}
                   <div className="flex gap-4">
                     <Skeleton width={30} height={16} />
                     <Skeleton width={30} height={16} />
                   </div>
 
-                  {/* Asked by */}
                   <Skeleton width={120} height={16} />
                 </div>
               </div>

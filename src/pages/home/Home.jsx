@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { QnAContext } from "../../context/QuestionContext";
 import QuestionFeed from "../../components/QuestionFeed/QuestionFeed";
 import QuestionCardSkeleton from "../../components/skeleton/QuestionCardSkeleton";
+import SidebarSkelton from "../../components/skeleton/SidebarSkeleton";
+import MainSkeleton from "../../components/skeleton/MainSkeleton";
 
 export default function Home() {
   const trending = ["react", "tailwind", "mongodb", "javascript", "ai"];

@@ -29,7 +29,6 @@ const Signin = () => {
         <span className="text-3xl font-bold text-white">DevFlow</span>
       </Link>
 
-      {/* Card */}
       <div className="bg-[#1E293B] border border-gray-700 shadow-xl rounded-xl p-10 w-full max-w-md mt-6">
         <h2 className="text-3xl font-bold text-center text-white">
           Welcome Back
