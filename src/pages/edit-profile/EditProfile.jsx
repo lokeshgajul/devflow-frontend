@@ -11,7 +11,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
-  const { user } = useContext(AuthContext);
+  const { user, fetchUser, setUser } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     fullName: user.fullName || "",
     profileImage: user.profileImage || "",
@@ -30,24 +30,26 @@ const EditProfile = () => {
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-
     if (!file) return;
 
-    setPreview(URL.createObjectURL(file));
-    const formData = new FormData();
-    formData.append("profileImage", file);
+    const localPreview = URL.createObjectURL(file);
+    setPreview(localPreview);
+
+    const uploadData = new FormData();
+    uploadData.append("profileImage", file);
 
     try {
       const res = await axios.post(
         "https://devflow-backend-six.vercel.app/api/user/upload-image",
-        formData,
+        uploadData,
         { withCredentials: true }
       );
 
-      const data = await res.data;
-
-      if (data.success) {
-        setPreview(data.profileImage);
+      if (res.data.success) {
+        setFormData((prev) => ({
+          ...prev,
+          profileImage: res.data.profileImage,
+        }));
       }
     } catch (error) {
       console.error("Upload error:", error);
@@ -68,6 +70,7 @@ const EditProfile = () => {
           bio: formData.bio,
           location: formData.location,
           portfolio: formData.portfolio,
+          profileImage: formData.profileImage,
           socialLinks: {
             github: formData.github,
             linkedIn: formData.linkedin,
@@ -79,8 +82,16 @@ const EditProfile = () => {
       );
 
       const data = await res.data;
-      navigate("/profile");
-      console.log(data);
+      if (data.success) {
+        setFormData((prev) => ({
+          ...prev,
+          profileImage: data.Profile.profileImage,
+        }));
+        setUser(data.Profile);
+
+        await fetchUser();
+        navigate("/profile");
+      }
     } catch (error) {
       console.log(error);
     }

@@ -131,13 +131,13 @@ const Profile = () => {
               <div className="gap-3 flex justify-start items-center">
                 <button
                   onClick={() => navigate("/edit-profile")}
-                  className="px-2 py-2 mt-4 md:mt-8 bg-blue-500 max-w-fit hover:bg-blue-600 rounded-md text-sm font-medium"
+                  className="px-2 py-2 mt-4 md:mt-8 bg-blue-500 max-w-fit hover:bg-blue-600 rounded-md text-[13px] font-medium"
                 >
                   Edit Profile
                 </button>
                 <button
                   onClick={() => handleLogout()}
-                  className="px-2 py-2 mt-4 md:mt-8 bg-blue-500 max-w-fit hover:bg-blue-600 rounded-md text-sm font-medium"
+                  className="px-2 py-2 mt-4 md:mt-8 bg-blue-500 max-w-fit hover:bg-blue-600 rounded-md text-[13px] font-medium"
                 >
                   LogOut
                 </button>
