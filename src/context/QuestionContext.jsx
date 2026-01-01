@@ -45,20 +45,6 @@ export const QnAProvider = ({ children }) => {
     }
   };
 
-  const getAllQuestionsCreatedByUser = async (userId) => {
-    try {
-      const response = await axios.post(
-        "https://devflow-backend-six.vercel.app/api/question/user-questions",
-        { userId }
-      );
-
-      const data = await response.data;
-      return data;
-    } catch (error) {
-      console.log("Error ", error);
-    }
-  };
-
   const getAllAnswers = async (questionId) => {
     try {
       const res = await axios.post(
@@ -72,6 +58,37 @@ export const QnAProvider = ({ children }) => {
       setComments(res.data);
     } catch (error) {
       console.log("error", error);
+    }
+  };
+
+  const deleteQuestion = async (questionId) => {
+    try {
+      const res = await axios.post(
+        "https://devflow-backend-six.vercel.app/api/question/delete_question",
+        {
+          questionId,
+        },
+        { withCredentials: true }
+      );
+      const data = await res.data;
+      setQuestionData((prev = []) => prev.filter((q) => q._id !== questionId));
+
+      console.log("Deleted successfully ");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getAllQuestionsCreatedByUser = async (userId) => {
+    try {
+      const response = await axios.post(
+        "https://devflow-backend-six.vercel.app/api/question/user-questions",
+        { userId }
+      );
+
+      const data = await response.data;
+      return data;
+    } catch (error) {
+      console.log("Error ", error);
     }
   };
 
@@ -113,6 +130,7 @@ export const QnAProvider = ({ children }) => {
     likes,
     isLiked,
     loading,
+    deleteQuestion,
     setLikes,
     setIsLiked,
     handleLike,

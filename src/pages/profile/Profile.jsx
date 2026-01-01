@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BiSolidLike } from "react-icons/bi";
 import { FaMapMarkerAlt, FaLink, FaTwitter, FaCalendar } from "react-icons/fa";
+import { MdOutlineDeleteOutline } from "react-icons/md";
 import { FiMessageCircle } from "react-icons/fi";
 import { SlSocialLinkedin } from "react-icons/sl";
 import { AuthContext } from "../../context/AuthContext";
@@ -16,6 +17,7 @@ const Profile = () => {
     getAllQuestionsCreatedByUser,
     getAllAnswersCreatedByUser,
     handleLike,
+    deleteQuestion,
   } = useContext(QnAContext);
   const [checkmode, setCheckmode] = useState("questions");
   const [userData, setUserData] = useState(null);
@@ -48,6 +50,18 @@ const Profile = () => {
       console.log("Error", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (questionId) => {
+    try {
+      await deleteQuestion(questionId);
+
+      setUserQuestions((prevQuestion) =>
+        prevQuestion.filter((q) => q._id !== questionId)
+      );
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -294,30 +308,42 @@ const Profile = () => {
                   ))}
                 </div>
 
-                <div className="flex flex-row items-center space-x-1.5">
-                  <div
-                    onClick={() => onLikeToggle(que)}
-                    className="flex items-center gap-1.5 cursor-pointer group"
-                  >
-                    <BiSolidLike
-                      size={20}
-                      className={`transition-colors ${
-                        isLiked
-                          ? "text-blue-500"
-                          : "text-gray-400 group-hover:text-gray-600"
-                      }`}
-                    />
-                    <span
-                      className={isLiked ? "text-blue-500" : "text-gray-500"}
+                <div className=" flex flex-row justify-between items-center">
+                  <div className="flex flex-row items-center space-x-1.5">
+                    <div
+                      onClick={() => onLikeToggle(que)}
+                      className="flex items-center gap-1.5 cursor-pointer group"
                     >
-                      {que.likes || 0}
+                      <BiSolidLike
+                        size={20}
+                        className={`transition-colors ${
+                          isLiked
+                            ? "text-blue-500"
+                            : "text-gray-400 group-hover:text-gray-600"
+                        }`}
+                      />
+                      <span
+                        className={isLiked ? "text-blue-500" : "text-gray-500"}
+                      >
+                        {que.likes || 0}
+                      </span>
+                    </div>
+
+                    <span>
+                      <FiMessageCircle color="gray" size={18} />
                     </span>
+                    <span className="text-gray-400"> {que.comments}</span>
                   </div>
 
-                  <span>
-                    <FiMessageCircle color="gray" size={18} />
-                  </span>
-                  <span className="text-gray-400"> {que.comments}</span>
+                  <div>
+                    <span
+                      onClick={() => handleDelete(que._id)}
+                      className="cursor-pointer"
+                    >
+                      <MdOutlineDeleteOutline color="red" size={20} />
+                      {/* <FiMessageCircle color="gray" size={18} /> */}
+                    </span>
+                  </div>
                 </div>
               </div>
             );

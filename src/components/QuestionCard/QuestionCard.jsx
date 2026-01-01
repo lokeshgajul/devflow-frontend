@@ -10,7 +10,7 @@ const QuestionItem = ({ question }) => {
   const navigate = useNavigate();
   const [likes, setLikes] = useState(question.likes || 0);
   const [isLiked, setIsLiked] = useState(question.likedBy?.includes(user?._id));
-  const { handleLike } = useContext(QnAContext);
+  const { handleLike, isDeleted } = useContext(QnAContext);
 
   useEffect(() => {
     if (question) {
@@ -18,7 +18,7 @@ const QuestionItem = ({ question }) => {
       const userHasLiked = user?._id && question.likedBy?.includes(user._id);
       setIsLiked(userHasLiked);
     }
-  }, [question, user?._id]);
+  }, [question, user?._id, isDeleted]);
 
   const onLikeClick = async () => {
     const prevLikes = likes;
@@ -42,7 +42,7 @@ const QuestionItem = ({ question }) => {
   const defaultAvatar =
     "https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211467.png";
 
-  const avatar = user?.avatar || user?.profileImage || defaultAvatar;
+  const avatar = question?.avatar || defaultAvatar;
 
   return (
     <article className="bg-gray-800/85 py-8 px-4 rounded-2xl cursor-pointer border border-slate-700 shadow-md hover:scale-[1.003] transition-transform">

@@ -12,9 +12,17 @@ const QuestionFeed = ({ questionData }) => {
   }
   return (
     <div className="space-y-4">
-      {questionData?.map((q) => {
-        return <QuestionCard key={q._id} question={q} />;
-      })}
+      {questionData ? (
+        questionData?.map((q) => {
+          return <QuestionCard key={q._id} question={q} />;
+        })
+      ) : (
+        <div>
+          <p className="text-white text-xl text-center mt-8">
+            No Question Posted Yet
+          </p>
+        </div>
+      )}
     </div>
   );
 };
